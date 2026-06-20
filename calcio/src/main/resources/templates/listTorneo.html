@@ -1,47 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Nuovo Torneo</title>
+    <title>Tornei</title>
     <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div th:replace="fragments/header :: navbar"></div>
 
-<h1>Inserisci un nuovo torneo</h1>
+    <h1 class="text-center"><i class="fa-solid fa-trophy text-muted"></i> Elenco Tornei</h1>
 
-<form th:action="${torneo.id == null} ? @{/tornei} : @{'/tornei/' + ${torneo.id}}"
-      th:object="${torneo}" method="post">
-
-    <div>
-        <label>Nome:</label>
-        <input type="text" th:field="*{nome}">
-        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+    <div class="page-actions">
+        <a th:href="@{/tornei/new}" class="btn-secondary">
+            <i class="fa-solid fa-plus"></i> Aggiungi nuovo torneo
+        </a>
     </div>
 
-    <div>
-        <label>Anno:</label>
-        <input type="number" th:field="*{anno}">
-        <div th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}"></div>
-    </div>
-
-    <div>
-        <label>Descrizione:</label>
-        <input type="text" th:field="*{descrizione}">
-        <div th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></div>
-    </div>
-
-    <div>
-        <label>Squadre partecipanti:</label>
-        <select multiple th:field="*{squadre}">
-            <option th:each="squadra : ${squadre}"
-                    th:value="${squadra.id}"
-                    th:text="${squadra.nome}">
-            </option>
-        </select>
-    </div>
-
-    <button type="submit">Salva</button>
-</form>
-
-
+    <ul class="grid-container">
+        <a th:href="@{'/tornei/' + ${torneo.id}}" class="grid-card" th:each="torneo : ${tornei}">
+            <div class="card-icon" style="color: #f1c40f;"><i class="fa-solid fa-trophy"></i></div>
+            <h3 class="card-title" th:text="${torneo.nome}">Nome Torneo</h3>
+            <p class="card-subtitle"><i class="fa-solid fa-calendar-days"></i> Anno: <span th:text="${torneo.anno}">Anno</span></p>
+        </a>
+    </ul>
 </body>
 </html>

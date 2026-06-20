@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import it.uniroma3.siw.calcio.model.Utente;
 
 public interface UtenteRepository extends CrudRepository<Utente, Long> {
-    public Utente findByUsername(String username);
+    public Utente findFirstByUsername(String username);
 }

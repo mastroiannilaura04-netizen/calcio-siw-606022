@@ -4,41 +4,28 @@
 <head>
     <title>Squadre</title>
     <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-    <nav>
-        <a th:href="@{/tornei}">Tornei</a>
-        |
-        <a th:href="@{/squadre}">Squadre</a>
-        |
-        <a th:href="@{/giocatori}">Giocatori</a>
-        |
-        <a th:href="@{/partite}">Partite</a>
-        |
-        <a th:href="@{/utenti}">Utenti</a>
-        |
-        <a th:href="@{/registrazione}">Registrazione</a>
-    </nav>
+    <div th:replace="fragments/header :: navbar"></div>
 
-    <br><br>
+    <h1 class="text-center"><i class="fa-solid fa-shield-halved text-muted"></i> Elenco Squadre</h1>
 
-    <a th:href="@{/squadre/new}">Aggiungi nuova squadra</a>
+    <div class="page-actions">
+        <a th:href="@{/squadre/new}" class="btn-secondary">
+            <i class="fa-solid fa-plus"></i> Aggiungi nuova squadra
+        </a>
+    </div>
 
-    <h1>Elenco squadre</h1>
-
-    <ul>
-        <li th:each="squadra : ${squadre}">
-            <a th:href="@{'/squadre/' + ${squadra.id}}" th:text="${squadra.nome}">
-                Nome squadra
-            </a>
-            -
-            <span th:text="${squadra.citta}">Città</span>
-        </li>
+    <ul class="grid-container">
+        <a th:href="@{'/squadre/' + ${squadra.id}}" class="grid-card" th:each="squadra : ${squadre}">
+            <div class="card-icon"><i class="fa-solid fa-shield"></i></div>
+            <h3 class="card-title" th:text="${squadra.nome}">Nome squadra</h3>
+            <p class="card-subtitle"><i class="fa-solid fa-location-dot"></i> <span th:text="${squadra.citta}">Città</span></p>
+        </a>
     </ul>
-
-
 
 </body>
 </html>

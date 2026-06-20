@@ -6,8 +6,9 @@
 
 </head>
 <body>
+    <div th:replace="fragments/header :: navbar"></div>
 
-<h1>Inserisci una nuova squadra</h1>
+<h1 class="text-center">Inserisci una nuova squadra</h1>
 
 <form th:action="${squadra.id == null} ? @{/squadre} : @{'/squadre/' + ${squadra.id}}"
       th:object="${squadra}" method="post">

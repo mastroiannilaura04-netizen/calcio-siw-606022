@@ -37,6 +37,6 @@ public class UtenteService {
 
     @Transactional(readOnly = true)
     public Utente findByUsername(String username) {
-        return this.utenteRepository.findByUsername(username);
+        return this.utenteRepository.findFirstByUsername(username);
     }
 }

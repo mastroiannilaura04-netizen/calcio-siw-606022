@@ -4,45 +4,54 @@
 <head>
     <title>Dettaglio Giocatore</title>
     <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-    <h1>
-        <span th:text="${giocatore.nome}">Nome</span>
-        <span th:text="${giocatore.cognome}">Cognome</span>
-    </h1>
-    <p>
-    Data di nascita:
-    <span th:text="${giocatore.dataNascita}"></span>
-</p>
+    <div th:replace="fragments/header :: navbar"></div>
 
-    <p>
-        Ruolo:
-        <span th:text="${giocatore.ruolo}">Ruolo</span>
-    </p>
+    <div class="profile-header">
+        <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+        <h1 style="margin-top: 0;">
+            <span th:text="${giocatore.nome}">Nome</span>
+            <span th:text="${giocatore.cognome}">Cognome</span>
+        </h1>
+        <div style="font-size: 1.1rem; color: var(--text-muted); margin-top: 10px;">
+            <i class="fa-solid fa-shield-halved"></i> 
+            <span th:if="${giocatore.squadra != null}" th:text="${giocatore.squadra.nome}">Squadra</span>
+            <span th:if="${giocatore.squadra == null}">Svincolato</span>
+        </div>
+    </div>
 
-    <p>
-        Altezza:
-        <span th:text="${giocatore.altezza}">0.00</span>
-    </p>
+    <!-- Statistiche Giocatore -->
+    <div class="scoreboard" style="flex-direction: row; justify-content: space-around; max-width: 600px; padding: 30px;">
+        <div style="text-align: center;">
+            <div style="color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;"><i class="fa-solid fa-calendar"></i> Data Nascita</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-top: 8px;" th:text="${giocatore.dataNascita}">Data</div>
+        </div>
+        
+        <div style="width: 1px; background: var(--border-glass); height: 50px;"></div>
+        
+        <div style="text-align: center;">
+            <div style="color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;"><i class="fa-solid fa-shoe-prints"></i> Ruolo</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: var(--accent-primary); margin-top: 8px;" th:text="${giocatore.ruolo}">Ruolo</div>
+        </div>
+        
+        <div style="width: 1px; background: var(--border-glass); height: 50px;"></div>
 
-    <p>
-        Squadra:
-        <span th:text="${giocatore.squadra.nome}">Squadra</span>
-    </p>
+        <div style="text-align: center;">
+            <div style="color: var(--text-muted); text-transform: uppercase; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;"><i class="fa-solid fa-ruler-vertical"></i> Altezza</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-main); margin-top: 8px;"><span th:text="${giocatore.altezza}">0.00</span> m</div>
+        </div>
+    </div>
 
-    <br>
-
-    <a th:href="@{'/giocatori/' + ${giocatore.id} + '/edit'}">
-        Modifica giocatore
-    </a>
-
-    <br><br>
-
-    <a th:href="@{/giocatori}">Torna ai giocatori</a>
-
-
+    <!-- Azioni sulla Pagina -->
+    <div class="page-actions">
+        <a th:href="@{'/giocatori/' + ${giocatore.id} + '/edit'}" class="btn-secondary">
+            <i class="fa-solid fa-pencil"></i> Modifica Giocatore
+        </a>
+    </div>
 
 </body>
 </html>

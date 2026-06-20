@@ -4,79 +4,91 @@
 <head>
     <title>Dettaglio Partita</title>
     <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-    <h1>
-        <span th:text="${partita.homeTeam.nome}">Casa</span>
-        vs
-        <span th:text="${partita.awayTeam.nome}">Ospite</span>
-    </h1>
+    <div th:replace="fragments/header :: navbar"></div>
 
-    <p>
-        Luogo:
-        <span th:text="${partita.luogo}">Luogo</span>
-    </p>
+    <h1 class="text-center"><i class="fa-solid fa-trophy text-muted"></i> Dettaglio Partita</h1>
 
-    <p>
-        Stato:
-        <span th:text="${partita.stato}">Stato</span>
-    </p>
+    <!-- Scoreboard Premium -->
+    <div class="scoreboard">
+        <div class="team-block">
+            <div class="team-logo"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="team-name" th:text="${partita.homeTeam.nome}">Casa</div>
+        </div>
+        
+        <div class="score-block">
+            <div class="score-display">
+                <div class="score-number" th:text="${partita.goalsHome}">0</div>
+                <div class="score-divider">:</div>
+                <div class="score-number" th:text="${partita.goalsAway}">0</div>
+            </div>
+            <div class="match-info">
+                <span class="badge badge-status" th:text="${partita.stato}">Stato</span>
+                <span class="badge badge-location"><i class="fa-solid fa-location-dot"></i> <span th:text="${partita.luogo}">Luogo</span></span>
+            </div>
+        </div>
 
-    <p>
-        Risultato:
-        <span th:text="${partita.goalsHome}">0</span>
-        -
-        <span th:text="${partita.goalsAway}">0</span>
-    </p>
-    <h2>Commenti</h2>
-
-<ul>
-    <li th:each="commento : ${partita.commenti}">
-        <strong th:if="${commento.autore != null}" th:text="${commento.autore.username}">Autore</strong>
-        <strong th:if="${commento.autore == null}">Utente sconosciuto</strong>
-        :
-        <span th:text="${commento.testo}">Testo commento</span>
-
-        <span th:if="${usernameLoggato != null and commento.autore != null and commento.autore.username == usernameLoggato}">
-            <a th:href="@{'/commenti/' + ${commento.id} + '/edit'}">
-                Modifica
-            </a>
-        </span>
-    </li>
-</ul>
-
-<h3>Aggiungi un commento</h3>
-
-<form th:action="@{'/partite/' + ${partita.id} + '/commenti'}"
-      th:object="${commento}"
-      method="post">
-
-    <div>
-        <textarea th:field="*{testo}" rows="4" cols="50"></textarea>
+        <div class="team-block">
+            <div class="team-logo"><i class="fa-solid fa-shield"></i></div>
+            <div class="team-name" th:text="${partita.awayTeam.nome}">Ospite</div>
+        </div>
     </div>
 
-    <br>
+    <!-- Azioni sulla Partita -->
+    <div class="page-actions">
+        <a th:href="@{'/partite/' + ${partita.id} + '/risultato'}" class="btn-secondary">
+            <i class="fa-solid fa-pen-to-square"></i> Inserisci/Modifica Risultato
+        </a>
+        <form th:action="@{'/partite/' + ${partita.id} + '/delete'}" method="post" style="display:inline; margin:0; padding:0; background:none; border:none; box-shadow:none;">
+            <button type="submit" class="btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questa partita?');">
+                <i class="fa-solid fa-trash"></i> Elimina Partita
+            </button>
+        </form>
+    </div>
 
-    <button type="submit">Invia commento</button>
+    <hr style="border: 0; height: 1px; background: rgba(4,41,58,0.08); max-width: 800px; margin: 40px auto;">
 
-</form>
+    <!-- Commenti Section -->
+    <h2 class="text-center"><i class="fa-regular fa-comments"></i> Commenti</h2>
 
-<br>
+    <div class="comments-container">
+        <div class="comment-bubble" th:each="commento : ${partita.commenti}">
+            <div class="comment-header">
+                <div class="comment-author">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span th:if="${commento.autore != null}" th:text="${commento.autore.username}">Autore</span>
+                    <span th:if="${commento.autore == null}">Utente sconosciuto</span>
+                </div>
+                <div class="comment-actions" th:if="${usernameLoggato != null and commento.autore != null and commento.autore.username == usernameLoggato}">
+                    <a th:href="@{'/commenti/' + ${commento.id} + '/edit'}">
+                        <i class="fa-solid fa-pencil"></i> Modifica
+                    </a>
+                </div>
+            </div>
+            <div class="comment-text" th:text="${commento.testo}">Testo commento</div>
+        </div>
+        
+        <div th:if="${partita.commenti.empty}" class="text-center" style="color: var(--text-muted); margin-bottom: 20px;">
+            <p>Nessun commento presente. Scrivi il primo!</p>
+        </div>
+    </div>
 
-<a th:href="@{'/partite/' + ${partita.id} + '/risultato'}">
-    Inserisci risultato
-</a>
+    <!-- Aggiungi Commento Form -->
+    <h3 class="text-center mt-4"><i class="fa-solid fa-plus"></i> Aggiungi un commento</h3>
 
-<br><br>
-
-    <a th:href="@{/partite}">Torna alle partite</a>
-
-    <form th:action="@{'/partite/' + ${partita.id} + '/delete'}" method="post">
-    <button type="submit">Elimina partita</button>
-</form>
-
+    <form th:action="@{'/partite/' + ${partita.id} + '/commenti'}"
+          th:object="${commento}"
+          method="post" class="card">
+        
+        <label for="testo">Il tuo pensiero sulla partita</label>
+        <textarea id="testo" th:field="*{testo}" rows="4" placeholder="Scrivi qui il tuo commento..." required></textarea>
+        
+        <button type="submit"><i class="fa-solid fa-paper-plane"></i> Invia Commento</button>
+    </form>
 
 </body>
 </html>

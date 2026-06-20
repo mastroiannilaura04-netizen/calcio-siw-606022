@@ -5,8 +5,9 @@
     <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
 </head>
 <body>
+    <div th:replace="fragments/header :: navbar"></div>
 
-<h1>Lista squadre</h1>
+<h1 class="text-center">Lista squadre</h1>
 
 <div id="root" th:attr="data-squadre=${squadreJson}"></div>
 
