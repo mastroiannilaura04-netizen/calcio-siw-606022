@@ -19,6 +19,21 @@ public class SquadraController {
         this.squadraService = squadraService;
     }
 
+    @GetMapping("/squadre")
+    public String mostraSquadreReact(Model model) {
+        String squadreJson = """
+            [
+                {"id":1,"nome":"Roma","citta":"Roma","annoFondazione":1927,"giocatori":[]},
+                {"id":2,"nome":"Lazio","citta":"Roma","annoFondazione":1900,"giocatori":[]},
+                {"id":3,"nome":"Milan","citta":"Milano","annoFondazione":1899,"giocatori":[]}
+            ]
+            """;
+
+        model.addAttribute("squadreJson", squadreJson);
+
+        return "reactSquadre";
+    }
+
     @GetMapping("/squadre/new")
     public String mostraFormNuovaSquadra(Model model) {
         model.addAttribute("squadra", new Squadra());
@@ -56,22 +71,4 @@ public class SquadraController {
         this.squadraService.deleteById(id);
         return "redirect:/squadre";
     }
-
-        }
-
-@GetMapping("/squadre")
-public String mostraSquadreReact(Model model) {
-
-    String squadreJson = """
-        [
-            {"id":1,"nome":"Roma","citta":"Roma","annoFondazione":1927,"giocatori":[]},
-            {"id":2,"nome":"Lazio","citta":"Roma","annoFondazione":1900,"giocatori":[]},
-            {"id":3,"nome":"Milan","citta":"Milano","annoFondazione":1899,"giocatori":[]}
-        ]
-        """;
-
-    model.addAttribute("squadreJson", squadreJson);
-
-    return "reactSquadre";
-
 }
