@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.FetchType;
 
 @Entity
 public class Squadra {
@@ -23,7 +24,7 @@ public class Squadra {
     @ManyToMany(mappedBy = "squadre")
 private List<Torneo> tornei = new ArrayList<>();
     
-    @OneToMany(mappedBy = "squadra")
+ @OneToMany(mappedBy = "squadra", fetch = FetchType.LAZY)
 private List<Giocatore> giocatori = new ArrayList<>();
 
     public Long getId() {
