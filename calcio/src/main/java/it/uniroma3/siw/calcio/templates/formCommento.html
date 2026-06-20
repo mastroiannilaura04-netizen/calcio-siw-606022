@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Modifica commento</title>
+</head>
+
+<body>
+
+<h1>Modifica commento</h1>
+
+<form th:action="@{'/commenti/' + ${commento.id}}"
+      th:object="${commento}"
+      method="post">
+
+    <div>
+        <textarea th:field="*{testo}" rows="4" cols="50"></textarea>
+    </div>
+
+    <br>
+
+    <button type="submit">Salva modifiche</button>
+
+</form>
+
+</body>
+</html>

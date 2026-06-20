@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Nuova Squadra</title>
+</head>
+
+<body>
+
+    <h1>Inserisci una nuova squadra</h1>
+
+    <form th:action="${squadra.id == null} ? @{/squadre} : @{'/squadre/' + ${squadra.id}}"
+      th:object="${squadra}"
+      method="post">
+
+        <div>
+            <label>Nome:</label>
+            <input type="text" th:field="*{nome}">
+        </div>
+
+        <div>
+            <label>Anno di fondazione:</label>
+            <input type="number" th:field="*{annoFondazione}">
+        </div>
+
+        <div>
+            <label>Città:</label>
+            <input type="text" th:field="*{citta}">
+        </div>
+
+        <button type="submit">Salva</button>
+
+    </form>
+
+</body>
+</html>

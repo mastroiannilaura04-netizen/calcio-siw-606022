@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dettaglio Partita</title>
+</head>
+
+<body>
+
+    <h1>
+        <span th:text="${partita.homeTeam.nome}">Casa</span>
+        vs
+        <span th:text="${partita.awayTeam.nome}">Ospite</span>
+    </h1>
+
+    <p>
+        Luogo:
+        <span th:text="${partita.luogo}">Luogo</span>
+    </p>
+
+    <p>
+        Stato:
+        <span th:text="${partita.stato}">Stato</span>
+    </p>
+
+    <p>
+        Risultato:
+        <span th:text="${partita.goalsHome}">0</span>
+        -
+        <span th:text="${partita.goalsAway}">0</span>
+    </p>
+    <h2>Commenti</h2>
+
+<ul>
+    <li th:each="commento : ${partita.commenti}">
+        <strong th:if="${commento.autore != null}" th:text="${commento.autore.username}">Autore</strong>
+        <strong th:if="${commento.autore == null}">Utente sconosciuto</strong>
+        :
+        <span th:text="${commento.testo}">Testo commento</span>
+
+        <span th:if="${usernameLoggato != null and commento.autore != null and commento.autore.username == usernameLoggato}">
+            <a th:href="@{'/commenti/' + ${commento.id} + '/edit'}">
+                Modifica
+            </a>
+        </span>
+    </li>
+</ul>
+
+<h3>Aggiungi un commento</h3>
+
+<form th:action="@{'/partite/' + ${partita.id} + '/commenti'}"
+      th:object="${commento}"
+      method="post">
+
+    <div>
+        <textarea th:field="*{testo}" rows="4" cols="50"></textarea>
+    </div>
+
+    <br>
+
+    <button type="submit">Invia commento</button>
+
+</form>
+
+<br>
+
+<a th:href="@{'/partite/' + ${partita.id} + '/risultato'}">
+    Inserisci risultato
+</a>
+
+<br><br>
+
+    <a th:href="@{/partite}">Torna alle partite</a>
+
+    <form th:action="@{'/partite/' + ${partita.id} + '/delete'}" method="post">
+    <button type="submit">Elimina partita</button>
+</form>
+
+</body>
+</html>

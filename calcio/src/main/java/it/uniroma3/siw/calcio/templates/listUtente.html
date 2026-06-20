@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Utenti</title>
+</head>
+
+<body>
+
+    <nav>
+        <a th:href="@{/tornei}">Tornei</a>
+        |
+        <a th:href="@{/squadre}">Squadre</a>
+        |
+        <a th:href="@{/giocatori}">Giocatori</a>
+        |
+        <a th:href="@{/partite}">Partite</a>
+        |
+        <a th:href="@{/utenti}">Utenti</a>
+        |
+        <a th:href="@{/registrazione}">Registrazione</a>
+    </nav>
+
+    <br><br>
+
+    <h1>Utenti registrati</h1>
+
+    <ul>
+        <li th:each="utente : ${utenti}">
+            <span th:text="${utente.username}">Username</span>
+            -
+            <span th:text="${utente.ruolo}">Ruolo</span>
+        </li>
+    </ul>
+
+    <br>
+
+    <a th:href="@{/registrazione}">Registra nuovo utente</a>
+
+</body>
+
+</html>

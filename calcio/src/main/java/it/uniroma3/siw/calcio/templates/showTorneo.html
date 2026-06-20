@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dettaglio torneo</title>
+</head>
+
+<body>
+
+    <h1 th:text="${torneo.nome}">Nome torneo</h1>
+
+    <p>
+        Anno:
+        <span th:text="${torneo.anno}">2025</span>
+    </p>
+
+    <p>
+        Descrizione:
+        <span th:text="${torneo.descrizione}">Descrizione</span>
+    </p>
+    <h2>Squadre partecipanti</h2>
+
+<ul>
+    <li th:each="squadra : ${torneo.squadre}">
+        <span th:text="${squadra.nome}">Nome squadra</span>
+    </li>
+</ul>
+<p>
+    Numero squadre:
+    <span th:text="${torneo.squadre.size()}"></span>
+</p>
+
+<h2>Calendario partite</h2>
+
+<ul>
+  <li th:each="partita : ${torneo.partite}">
+    <a th:href="@{'/partite/' + ${partita.id}}">
+        <span th:text="${partita.homeTeam.nome}">Casa</span>
+        vs
+        <span th:text="${partita.awayTeam.nome}">Ospite</span>
+    </a>
+    -
+    <span th:text="${partita.luogo}">Luogo</span>
+    -
+    <span th:text="${partita.stato}">Stato</span>
+    -
+    <span th:text="${#temporals.format(partita.dataOra, 'dd/MM/yyyy HH:mm')}">
+        Data e ora
+    </span>
+</li>
+</ul>
+
+<h2>Classifica</h2>
+
+<table border="1">
+    <tr>
+        <th>Squadra</th>
+        <th>Punti</th>
+        <th>Gol fatti</th>
+        <th>Gol subiti</th>
+    </tr>
+
+    <tr th:each="riga : ${classifica}">
+        <td th:text="${riga.squadra.nome}">Squadra</td>
+        <td th:text="${riga.punti}">0</td>
+        <td th:text="${riga.golFatti}">0</td>
+        <td th:text="${riga.golSubiti}">0</td>
+    </tr>
+
+</table>
+
+<br><br>
+
+<a th:href="@{'/tornei/' + ${torneo.id} + '/edit'}">
+    Modifica torneo
+</a>
+
+<br><br>
+
+<a th:href="@{/tornei}">
+    Torna ai tornei
+</a>
+    <a th:href="@{/tornei}">Torna ai tornei</a>
+
+</body>
+</html>

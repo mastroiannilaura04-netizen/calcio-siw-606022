@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Tornei</title>
+</head>
+
+<body>
+
+    <a th:href="@{/tornei}">Tornei</a>
+    |
+    <a th:href="@{/squadre}">Squadre</a>
+    |
+    <a th:href="@{/giocatori}">Giocatori</a>
+    |
+    <a th:href="@{/partite}">Partite</a>
+    |
+    <a th:href="@{/utenti}">Utenti</a>
+
+    <br><br>
+
+    <form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+
+    <a th:href="@{/tornei/new}">Aggiungi nuovo torneo</a>
+
+    <h1>Elenco tornei</h1>
+
+    <ul>
+        <li th:each="torneo : ${tornei}">
+            <a th:href="@{'/tornei/' + ${torneo.id}}" th:text="${torneo.nome}">
+                Nome torneo
+            </a>
+            -
+            <span th:text="${torneo.anno}">Anno</span>
+        </li>
+    </ul>
+
+</body>
+
+</html>

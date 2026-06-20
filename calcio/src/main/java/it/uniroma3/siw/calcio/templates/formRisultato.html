@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Inserisci risultato</title>
+</head>
+
+<body>
+
+    <h1>Inserisci risultato</h1>
+
+    <h2>
+        <span th:text="${partita.homeTeam.nome}">Casa</span>
+        vs
+        <span th:text="${partita.awayTeam.nome}">Ospite</span>
+    </h2>
+
+    <form th:action="@{'/partite/' + ${partita.id} + '/risultato'}"
+          th:object="${partita}"
+          method="post">
+
+        <div>
+            Gol squadra casa:
+            <input type="number" th:field="*{goalsHome}">
+        </div>
+
+        <br>
+
+        <div>
+            Gol squadra ospite:
+            <input type="number" th:field="*{goalsAway}">
+        </div>
+
+        <br>
+
+        <button type="submit">Salva risultato</button>
+
+    </form>
+
+</body>
+</html>

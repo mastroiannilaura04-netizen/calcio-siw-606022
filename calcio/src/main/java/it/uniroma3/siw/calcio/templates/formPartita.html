@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Nuova Partita</title>
+</head>
+
+<body>
+
+    <h1>Inserisci una nuova partita</h1>
+
+    <form th:action="@{/partite}" th:object="${partita}" method="post">
+
+        <div>
+    <label>Data e ora:</label>
+    <input type="datetime-local" th:field="*{dataOra}">
+</div>
+        <div>
+            <label>Luogo:</label>
+            <input type="text" th:field="*{luogo}">
+        </div>
+
+        <div>
+            <label>Stato:</label>
+            <input type="text" th:field="*{stato}">
+        </div>
+
+        <div>
+            <label>Gol squadra casa:</label>
+            <input type="number" th:field="*{goalsHome}">
+        </div>
+
+        <div>
+            <label>Gol squadra ospite:</label>
+            <input type="number" th:field="*{goalsAway}">
+        </div>
+
+        <div>
+    <label>Squadra di casa:</label>
+    <select th:field="*{homeTeam}">
+        <option th:each="squadra : ${squadre}"
+                th:value="${squadra.id}"
+                th:text="${squadra.nome}">
+        </option>
+    </select>
+</div>
+
+<div>
+    <label>Squadra ospite:</label>
+    <select th:field="*{awayTeam}">
+        <option th:each="squadra : ${squadre}"
+                th:value="${squadra.id}"
+                th:text="${squadra.nome}">
+        </option>
+    </select>
+</div>
+
+<div>
+    <label>Arbitro:</label>
+    <select th:field="*{arbitro}">
+        <option th:each="arbitro : ${arbitri}"
+                th:value="${arbitro.id}"
+                th:text="${arbitro.nome + ' ' + arbitro.cognome}">
+        </option>
+    </select>
+</div>
+<div>
+    <label>Torneo:</label>
+    <select th:field="*{torneo}">
+        <option th:each="torneo : ${tornei}"
+                th:value="${torneo.id}"
+                th:text="${torneo.nome}">
+        </option>
+    </select>
+</div>
+        <button type="submit">Salva</button>
+
+    </form>
+
+</body>
+</html>
