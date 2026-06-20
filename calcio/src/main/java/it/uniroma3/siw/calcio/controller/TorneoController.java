@@ -2,11 +2,13 @@ package it.uniroma3.siw.calcio.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import it.uniroma3.siw.calcio.model.Torneo;
 import it.uniroma3.siw.calcio.service.SquadraService;
 import it.uniroma3.siw.calcio.service.TorneoService;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +39,15 @@ public class TorneoController {
     }
 
     @PostMapping("/tornei")
-    public String salvaTorneo(@ModelAttribute("torneo") Torneo torneo) {
+    public String salvaTorneo(@Valid @ModelAttribute("torneo") Torneo torneo,
+                              BindingResult bindingResult,
+                              Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("squadre", this.squadraService.findAll());
+            return "formTorneo";
+        }
+
         this.torneoService.save(torneo);
         return "redirect:/tornei";
     }
@@ -61,7 +71,14 @@ public class TorneoController {
 
     @PostMapping("/tornei/{id}")
     public String modificaTorneo(@PathVariable("id") Long id,
-                                 @ModelAttribute("torneo") Torneo torneo) {
+                                 @Valid @ModelAttribute("torneo") Torneo torneo,
+                                 BindingResult bindingResult,
+                                 Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("squadre", this.squadraService.findAll());
+            return "formTorneo";
+        }
 
         torneo.setId(id);
 
@@ -69,5 +86,4 @@ public class TorneoController {
 
         return "redirect:/tornei/" + id;
     }
-
 }

@@ -1,56 +1,59 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>Nuovo Giocatore</title>
 </head>
-
 <body>
 
-    <h1>Inserisci un nuovo giocatore</h1>
+<h1>Inserisci un nuovo giocatore</h1>
 
-    <form th:action="${giocatore.id == null} ? @{/giocatori} : @{'/giocatori/' + ${giocatore.id}}"
-      th:object="${giocatore}"
-      method="post">
+<form th:action="${giocatore.id == null} ? @{/giocatori} : @{'/giocatori/' + ${giocatore.id}}"
+      th:object="${giocatore}" method="post">
 
-        <div>
-            <label>Nome:</label>
-            <input type="text" th:field="*{nome}">
-        </div>
+    <div>
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}">
+        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+    </div>
 
-        <div>
-            <label>Cognome:</label>
-            <input type="text" th:field="*{cognome}">
-        </div>
+    <div>
+        <label>Cognome:</label>
+        <input type="text" th:field="*{cognome}">
+        <div th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></div>
+    </div>
 
-        <div>
-            <label>Ruolo:</label>
-            <input type="text" th:field="*{ruolo}">
-        </div>
+    <div>
+        <label>Ruolo:</label>
+        <input type="text" th:field="*{ruolo}">
+        <div th:if="${#fields.hasErrors('ruolo')}" th:errors="*{ruolo}"></div>
+    </div>
 
-        <div>
-    <label>Data di nascita:</label>
-    <input type="date" th:field="*{dataNascita}">
-</div>
+    <div>
+        <label>Data di nascita:</label>
+        <input type="date" th:field="*{dataNascita}">
+        <div th:if="${#fields.hasErrors('dataNascita')}" th:errors="*{dataNascita}"></div>
+    </div>
 
-        <div>
-            <label>Altezza:</label>
-            <input type="number" step="0.01" th:field="*{altezza}">
-        </div>
+    <div>
+        <label>Altezza:</label>
+        <input type="number" step="0.01" th:field="*{altezza}">
+        <div th:if="${#fields.hasErrors('altezza')}" th:errors="*{altezza}"></div>
+    </div>
 
-        <div>
-    <label>Squadra:</label>
-    <select th:field="*{squadra}">
-        <option th:each="squadra : ${squadre}"
-                th:value="${squadra.id}"
-                th:text="${squadra.nome}">
-        </option>
-    </select>
-</div>
+    <div>
+        <label>Squadra:</label>
+        <select th:field="*{squadra}">
+            <option value="">-- Seleziona squadra --</option>
+            <option th:each="squadra : ${squadre}"
+                    th:value="${squadra.id}"
+                    th:text="${squadra.nome}">
+            </option>
+        </select>
+        <div th:if="${#fields.hasErrors('squadra')}" th:errors="*{squadra}"></div>
+    </div>
 
-        <button type="submit">Salva</button>
-
-    </form>
+    <button type="submit">Salva</button>
+</form>
 
 </body>
 </html>

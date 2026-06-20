@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import it.uniroma3.siw.calcio.model.Squadra;
 import it.uniroma3.siw.calcio.service.SquadraService;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
 @Controller
 public class SquadraController {
 
@@ -41,10 +44,17 @@ public class SquadraController {
     }
 
     @PostMapping("/squadre")
-    public String salvaSquadra(@ModelAttribute("squadra") Squadra squadra) {
-        this.squadraService.save(squadra);
-        return "redirect:/squadre";
+public String salvaSquadra(@Valid @ModelAttribute("squadra") Squadra squadra,
+                           BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) {
+        return "formSquadra";
     }
+
+    this.squadraService.save(squadra);
+
+    return "redirect:/squadre";
+}
 
     @GetMapping("/squadre/{id}")
     public String mostraSquadra(@PathVariable("id") Long id, Model model) {
@@ -58,13 +68,20 @@ public class SquadraController {
         return "formSquadra";
     }
 
-    @PostMapping("/squadre/{id}")
-    public String modificaSquadra(@PathVariable("id") Long id,
-                                  @ModelAttribute("squadra") Squadra squadra) {
-        squadra.setId(id);
-        this.squadraService.save(squadra);
-        return "redirect:/squadre/" + id;
+ @PostMapping("/squadre/{id}")
+public String modificaSquadra(@PathVariable("id") Long id,
+                              @Valid @ModelAttribute("squadra") Squadra squadra,
+                              BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) {
+        return "formSquadra";
     }
+
+    squadra.setId(id);
+    this.squadraService.save(squadra);
+
+    return "redirect:/squadre/" + id;
+}
 
     @PostMapping("/squadre/{id}/delete")
     public String eliminaSquadra(@PathVariable("id") Long id) {
