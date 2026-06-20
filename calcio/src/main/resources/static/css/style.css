@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+html{
+    /* dimensione base leggermente maggiore per testi più grandi */
+    font-size: 17px;
+}
+
+/* Sfondo più dinamico */
+body{
+    margin:0;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, "Helvetica Neue", Arial;
+    font-size: 1rem; /* 1rem = 17px */
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(59,130,246,0.08), transparent),
+                radial-gradient(1000px 500px at 90% 90%, rgba(6,182,212,0.06), transparent),
+                linear-gradient(90deg,var(--bg-1),var(--bg-2));
+    color:#0f172a;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    position:relative;
+    overflow-x:hidden;
+
+    /* sfondo blu più vivo e dinamico */
+    background:
+      radial-gradient(800px 360px at 10% 10%, rgba(14,165,233,0.14), transparent 20%),
+      radial-gradient(700px 320px at 85% 85%, rgba(3,105,161,0.08), transparent 20%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+/* sottile overlay decorativo */
+body::after{
+    content:"";
+    position:fixed;
+    inset: -20% -20% auto auto;
+    width:420px;
+    height:420px;
+    background: radial-gradient(circle at 30% 30%, rgba(0,180,255,0.10), transparent 30%),
+                radial-gradient(circle at 70% 70%, rgba(3,105,161,0.06), transparent 30%);
+    filter: blur(40px);
+    pointer-events:none;
+    z-index:0;
+}
+
+/* Logo pallone fisso più grande */
+.logo-link{
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)), linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    box-shadow: 0 20px 60px rgba(3,105,161,0.18);
+    text-decoration: none;
+    z-index: 9999;
+    transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms;
+    border: 1px solid rgba(255,255,255,0.14);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.logo-link:hover{
+    transform: rotate(-10deg) scale(1.06);
+    box-shadow: 0 28px 72px rgba(3,105,161,0.24);
+    text-decoration: none;
+}
+
+.logo-emoji{
+    font-size: 52px;
+    line-height: 1;
+    transform: translateY(1px);
+}
+
+/* Titoli molto più grandi */
+h1{
+    text-align:center;
+    color:var(--accent-2);
+    margin-top:28px;
+    margin-bottom:18px;
+    font-size:2.6rem; /* più grande */
+    letter-spacing:0.6px;
+    text-shadow: 0 4px 18px rgba(59,130,246,0.12);
+    z-index:1;
+}
+
+/* Card più spaziosa e contrastata */
+form, ul, table, .card{
+    max-width:1100px;
+    margin:40px auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.97), var(--card-bg));
+    padding:36px;
+    border-radius:22px;
+    box-shadow: 0 26px 90px rgba(3,60,90,0.09);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid rgba(14,165,233,0.06);
+    position:relative;
+    z-index:1;
+}
+
+/* Accento sulla card */
+.card::before{
+    content:"";
+    position:absolute;
+    left:22px;
+    top:-14px;
+    width:84px;
+    height:8px;
+    border-radius:8px;
+    background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
+    box-shadow: 0 12px 28px rgba(14,165,233,0.10);
+}
+
+/* Campi più grandi e leggibili */
+input, select, textarea{
+    width:100%;
+    padding:14px;
+    margin-top:8px;
+    margin-bottom:15px;
+    border-radius:12px;
+    border:1px solid rgba(15,23,42,0.06);
+    background:linear-gradient(180deg,#ffffff,#f7fdff);
+    transition:box-shadow 0.18s, transform 0.12s;
+    outline:none;
+    color: #0f172a;
+    font-size:1.05rem; /* leggermente più grande */
+    line-height:1.35;
+}
+
+input:focus, select:focus, textarea:focus{
+    box-shadow: 0 18px 56px rgba(14,165,233,0.12);
+    transform:translateY(-3px);
+    border-color: rgba(14,165,233,0.38);
+}
+
+/* Pulsanti più evidenti */
+button{
+    background: linear-gradient(135deg,var(--accent-3), #0369a1 60%);
+    color:white;
+    border:none;
+    padding:14px 30px; /* più spazioso */
+    border-radius:12px;
+    font-size:1.03rem; /* più leggibile */
+    font-weight:700;
+    cursor:pointer;
+    transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+    box-shadow: 0 10px 30px rgba(6,182,212,0.08);
+}
+
+button:hover{
+    transform: translateY(-6px) scale(1.035);
+    box-shadow: 0 36px 110px rgba(3,105,161,0.20);
+    filter:brightness(1.04);
+}
+
+/* Pulsante alternativo */
+.btn-ghost{
+    background: transparent;
+    border: 1px solid rgba(14,165,233,0.18);
+    color: var(--accent-2);
+    padding:14px 24px;
+    border-radius:14px;
+}
+
+/* Link */
+a{
+    color: var(--accent-1);
+    text-decoration:none;
+    font-weight:700;
+}
+
+a:hover{
+    color:var(--accent-2);
+    text-decoration:underline;
+}
+
+/* Liste più grandi */
+li{
+    padding:16px 20px; /* spacing aumentato */
+    margin:12px 0;
+    background: linear-gradient(90deg, rgba(14,165,233,0.03), rgba(59,130,246,0.03));
+    border-left:6px solid rgba(59,130,246,0.14);
+    border-radius:10px;
+    list-style:none;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:1.02rem; /* testo lista più grande */
+    line-height:1.3;
+}
+
+/* Badge più evidente */
+.badge{
+    background: linear-gradient(90deg,var(--accent-2),var(--accent-1));
+    color:white;
+    padding:8px 12px; /* leggermente più grande */
+    border-radius:999px;
+    font-weight:700;
+    font-size:0.95rem;
+    box-shadow: 0 6px 18px rgba(59,130,246,0.12);
+}
+
+/* Tabelle leggibili */
+table{
+    border-collapse:collapse;
+    width:100%;
+    background:transparent;
+}
+
+th{
+    background: linear-gradient(90deg,var(--accent-2),var(--accent-1));
+    color:white;
+    font-weight:800;
+}
+
+th,td{
+    padding:16px;
+    text-align:center;
+    border-bottom:1px solid rgba(15,23,42,0.04);
+    font-size:1.02rem; /* tabelle più leggibili */
+}
+
+tr:nth-child(even){
+    background: linear-gradient(90deg, rgba(3,60,90,0.02), transparent);
+}
+
+/* Hover righe */
+tr:hover{
+    transform: translateY(-4px);
+    transition: transform 0.15s;
+    box-shadow: 0 20px 56px rgba(2,6,23,0.06);
+}
+
+/* Errori validation */
+div {
+    box-sizing: border-box;
+}
+
+.error {
+    color: #ef4444;
+    font-size: 14px; /* leggermente più grande */
+    margin-bottom: 10px;
+    display:block;
+}
+
+/* Responsive: conserva maggiore impatto visivo su mobile */
+@media (max-width:900px){
+    html{ font-size:18px; } /* scala leggermente */
+    .card, form, table, ul{
+        padding:22px;
+        margin:20px 16px;
+        border-radius:16px;
+    }
+
+    h1{
+        font-size:2.6rem;
+        margin-top:32px;
+    }
+
+    th,td{
+        padding:12px;
+        font-size:1rem;
+    }
+
+    .logo-link{
+        width: 66px;
+        height: 66px;
+        top: 14px;
+        left: 14px;
+    }
+
+    .logo-emoji{
+        font-size:40px;
+    }
+}
+
+/* Riduci animazioni per preferenze ridotte */
+@media (prefers-reduced-motion: reduce){
+    .logo-link, .logo-link:hover, button, tr:hover, input:focus, body::after{
+        transition: none !important;
+        transform: none !important;
+        animation: none !important;
+    }
+}
