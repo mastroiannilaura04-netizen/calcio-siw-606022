@@ -41,7 +41,10 @@ public class SecurityConfig {
                     "/giocatori/*",
                     "/partite",
                     "/partite/*",
-                    "/arbitri"
+                    "/arbitri",
+                    "/css/**",
+                    "/images/**",
+                    "/js/**"
                 ).permitAll()
 
                 .anyRequest().authenticated()
