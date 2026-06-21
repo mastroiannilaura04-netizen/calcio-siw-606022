@@ -3,37 +3,46 @@
 
 <head>
     <title>Giocatori</title>
-    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
 <body>
 
-    <div th:replace="fragments/header :: navbar"></div>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
-    <h1 class="text-center"><i class="fa-solid fa-users text-muted"></i> Elenco Giocatori</h1>
+<h1>👥 Elenco Giocatori</h1>
 
-    <div class="page-actions">
-        <a th:href="@{/giocatori/new}" class="btn-secondary">
-            <i class="fa-solid fa-user-plus"></i> Aggiungi nuovo giocatore
-        </a>
-    </div>
+<a class="action-button blue" th:href="@{/giocatori/new}">
+    ➕ Aggiungi nuovo giocatore
+</a>
 
-    <ul class="grid-container">
-        <a th:href="@{'/giocatori/' + ${giocatore.id}}" class="grid-card" th:each="giocatore : ${giocatori}" style="flex-direction: row; align-items: center; justify-content: flex-start; gap: 20px; text-align: left;">
-            <div style="background: rgba(11,148,216,0.1); color: var(--accent-primary); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0;">
-                <i class="fa-solid fa-user"></i>
-            </div>
-            <div>
-                <div style="font-weight: 800; font-size: 1.2rem;">
-                    <span th:text="${giocatore.nome}">Nome</span> <span th:text="${giocatore.cognome}">Cognome</span>
-                </div>
-                <div style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">
-                    <i class="fa-solid fa-shield-halved"></i> <span th:text="${giocatore.squadra != null ? giocatore.squadra.nome : 'Nessuna squadra'}">Squadra</span>
-                </div>
-            </div>
-        </a>
-    </ul>
+<ul class="player-list">
+    <li th:each="giocatore : ${giocatori}" class="player-list-item">
+
+        <img th:if="${giocatore.foto != null}"
+             th:src="@{${giocatore.foto}}"
+             class="player-list-photo"
+             alt="Foto giocatore">
+
+        <div th:if="${giocatore.foto == null}" class="player-list-avatar">
+            👤
+        </div>
+
+        <div>
+            <a th:href="@{'/giocatori/' + ${giocatore.id}}">
+                <strong>
+                    <span th:text="${giocatore.nome}">Nome</span>
+                    <span th:text="${giocatore.cognome}">Cognome</span>
+                </strong>
+            </a>
+
+            <p>
+                🛡️ <span th:text="${giocatore.squadra.nome}">Squadra</span>
+            </p>
+        </div>
+
+    </li>
+</ul>
 
 </body>
 </html>
