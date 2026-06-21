@@ -2,34 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 </head>
-<body>
-    <div th:fragment="navbar">
-        <!-- FontAwesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
-        <nav>
-            <a th:href="@{/tornei}"><i class="fa-solid fa-trophy"></i> Tornei</a>
-            <a th:href="@{/squadre}"><i class="fa-solid fa-shield-halved"></i> Squadre</a>
-            <a th:href="@{/giocatori}"><i class="fa-solid fa-users"></i> Giocatori</a>
-            <a th:href="@{/partite}"><i class="fa-solid fa-futbol"></i> Partite</a>
-            <a th:href="@{/utenti}"><i class="fa-solid fa-user-gear"></i> Utenti</a>
-            
-            <span th:if="${usernameLoggato != null}" style="display: flex; align-items: center; margin-left: 20px;">
-                <span style="color: var(--text-muted); font-weight: bold; margin-right: 10px;">
-                    <i class="fa-solid fa-user"></i> <span th:text="${usernameLoggato}">User</span>
-                </span>
-                <a th:href="@{/logout}" style="color: #e53935; border: 1px solid rgba(229,57,53,0.3);"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-            </span>
-            <span th:if="${usernameLoggato == null}">
-                 <a th:href="@{/login}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-                 <a th:href="@{/registrazione}"><i class="fa-solid fa-user-plus"></i> Registrati</a>
-            </span>
-        </nav>
 
-        <!-- Logo link fisso -->
-        <a href="/" class="logo-link" title="Home">
-            <span class="logo-emoji">⚽️</span>
+<body>
+
+<div th:fragment="navbar">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <nav>
+
+        <a th:href="@{/tornei}">
+            <i class="fa-solid fa-trophy"></i> Tornei
         </a>
-    </div>
+
+        <a th:href="@{/squadre}">
+            <i class="fa-solid fa-shield-halved"></i> Squadre
+        </a>
+
+        <a th:href="@{/giocatori}">
+            <i class="fa-solid fa-users"></i> Giocatori
+        </a>
+
+        <a th:href="@{/partite}">
+            <i class="fa-solid fa-futbol"></i> Partite
+        </a>
+
+      <a th:href="@{/arbitri}">
+    <i class="fa-solid fa-flag"></i> Arbitri
+</a>
+
+        <a th:href="@{/utenti}">
+            <i class="fa-solid fa-user-gear"></i> Utenti
+        </a>
+
+        <span th:if="${usernameLoggato != null}"
+              style="display:flex; align-items:center; margin-left:20px;">
+
+            <span style="font-weight:bold; margin-right:10px;">
+                <i class="fa-solid fa-user"></i>
+                <span th:text="${usernameLoggato}">User</span>
+            </span>
+
+            <a th:href="@{/logout}"
+               style="color:#e53935;
+                      border:1px solid rgba(229,57,53,0.3);">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </span>
+
+        <span th:if="${usernameLoggato == null}">
+
+            <a th:href="@{/login}">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                Login
+            </a>
+
+            <a th:href="@{/registrazione}">
+                <i class="fa-solid fa-user-plus"></i>
+                Registrati
+            </a>
+
+        </span>
+
+    </nav>
+
+    <!-- Logo pallone -->
+    <a th:href="@{/}" class="logo-link" title="Home">
+        <span class="logo-emoji">⚽</span>
+    </a>
+
+</div>
+
 </body>
 </html>
