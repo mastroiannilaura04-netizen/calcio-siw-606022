@@ -9,31 +9,64 @@
 
 <body>
 
-    <div th:replace="fragments/header :: navbar"></div>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
-    <h1 class="text-center"><i class="fa-solid fa-futbol text-muted"></i> Calendario Partite</h1>
+<h1 class="text-center">
+    <i class="fa-solid fa-futbol"></i> Calendario Partite
+</h1>
 
-    <div class="page-actions">
-        <a th:href="@{/partite/new}" class="btn-secondary">
-            <i class="fa-solid fa-plus"></i> Aggiungi nuova partita
-        </a>
-    </div>
+<div class="page-actions">
+    <a th:href="@{/partite/new}" class="action-button blue">
+        <i class="fa-solid fa-plus"></i> Aggiungi nuova partita
+    </a>
+</div>
 
-    <ul class="grid-container">
-        <a th:href="@{'/partite/' + ${partita.id}}" class="grid-card" th:each="partita : ${partite}" style="flex-direction: column; justify-content: center; gap: 10px;">
-            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; font-weight: 800; font-size: 1.3rem;">
-                <span th:text="${partita.homeTeam.nome}" style="width: 40%; text-align: right;">Casa</span>
-                <span style="color: var(--accent-primary); width: 20%; text-align: center;">VS</span>
-                <span th:text="${partita.awayTeam.nome}" style="width: 40%; text-align: left;">Ospite</span>
+<ul class="grid-container">
+
+    <a th:each="partita : ${partite}"
+       th:href="@{'/partite/' + ${partita.id}}"
+       class="match-list-card">
+
+        <div class="match-status">
+            <span th:text="${partita.stato}">Programmata</span>
+        </div>
+
+        <div class="match-teams">
+
+            <div class="team-name">
+                <span th:text="${partita.homeTeam.nome}">Casa</span>
             </div>
-            <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
-                <i class="fa-solid fa-location-dot"></i> <span th:text="${partita.luogo}">Luogo</span>
+
+            <div class="vs">VS</div>
+
+            <div class="team-name">
+                <span th:text="${partita.awayTeam.nome}">Ospite</span>
             </div>
-            <div style="margin-top: 8px;">
-                 <span class="badge badge-status" style="font-size: 0.75rem;">Dettagli <i class="fa-solid fa-arrow-right"></i></span>
+
+        </div>
+
+        <div class="match-info">
+
+            <div>
+                <i class="fa-solid fa-location-dot"></i>
+                <span th:text="${partita.luogo}">Luogo</span>
             </div>
-        </a>
-    </ul>
+
+            <div th:if="${partita.arbitro != null}">
+                <i class="fa-solid fa-flag"></i>
+                <span th:text="${partita.arbitro.nome}">Nome</span>
+                <span th:text="${partita.arbitro.cognome}">Cognome</span>
+            </div>
+
+        </div>
+
+        <div class="match-button">
+            Vedi dettagli →
+        </div>
+
+    </a>
+
+</ul>
 
 </body>
 </html>
