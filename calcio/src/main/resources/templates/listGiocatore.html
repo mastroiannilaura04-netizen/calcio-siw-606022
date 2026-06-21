@@ -42,9 +42,18 @@
                 </strong>
             </a>
 
-            <p>
-                🛡️ <span th:text="${giocatore.squadra.nome}">Squadra</span>
-            </p>
+            <p class="player-team">
+
+    <img class="player-team-logo"
+         th:src="@{'/images/stemmi/' + ${#strings.toLowerCase(giocatore.squadra.nome)} + '.png'}"
+         alt="Stemma squadra"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+
+    <span style="display:none;">🛡️</span>
+
+    <span th:text="${giocatore.squadra.nome}">Squadra</span>
+
+</p>
         </div>
 
     </li>

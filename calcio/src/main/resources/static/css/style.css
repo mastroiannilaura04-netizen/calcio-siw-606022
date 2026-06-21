@@ -848,3 +848,21 @@ tr:hover td {
     background:white;
     padding:2px;
 }
+
+.player-team{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#64748b;
+    margin-top:8px;
+}
+
+.player-team-logo{
+    width:24px;
+    height:24px;
+    object-fit:contain;
+    background:white;
+    border-radius:50%;
+    padding:2px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
