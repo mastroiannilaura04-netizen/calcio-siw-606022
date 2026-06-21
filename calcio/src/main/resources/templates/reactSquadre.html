@@ -7,12 +7,18 @@
 <body>
     <div th:replace="fragments/header :: navbar"></div>
 
-<h1 class="text-center">Lista squadre</h1>
+    <h1 class="text-center">Lista squadre</h1>
 
-<div id="root" th:attr="data-squadre=${squadreJson}"></div>
+    <div style="text-align:center; margin:18px 0; z-index:9999;">
+        <a th:href="@{/squadre/new}" class="btn" role="button" aria-label="Aggiungi nuova squadra"
+           style="display:inline-block !important; position:relative !important; z-index:9999 !important; padding:14px 28px; font-size:1.05rem; background:linear-gradient(90deg,#0b94d8,#4fc3f7) !important; color:#fff !important; border-radius:12px; box-shadow:0 10px 30px rgba(11,148,216,0.18);">
+           ➕ Aggiungi nuova squadra
+        </a>
+    </div>
 
-<script type="module" src="/js/react/index-GgLGtcmV.js"></script>
+    <div id="root" th:attr="data-squadre=${squadreJson}"></div>
 
+    <script type="module" src="/js/react/index-GgLGtcmV.js"></script>
 
 </body>
 </html>
