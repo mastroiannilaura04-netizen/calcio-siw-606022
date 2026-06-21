@@ -8,29 +8,38 @@
 
 <body>
 
-    <h1>Inserisci un nuovo arbitro</h1>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
-    <form th:action="@{/arbitri}" th:object="${arbitro}" method="post">
+<h1>🟨 Inserisci un nuovo arbitro</h1>
 
-        <div>
-            <label>Nome:</label>
-            <input type="text" th:field="*{nome}">
-        </div>
+<form th:action="${arbitro.id == null} ? @{/arbitri} : @{'/arbitri/' + ${arbitro.id}}"
+      th:object="${arbitro}"
+      method="post"
+      enctype="multipart/form-data">
 
-        <div>
-            <label>Cognome:</label>
-            <input type="text" th:field="*{cognome}">
-        </div>
+    <div>
+        <label>Nome:</label>
+        <input type="text" th:field="*{nome}">
+    </div>
 
-        <div>
-            <label>Codice arbitrale:</label>
-            <input type="text" th:field="*{codiceArbitrale}">
-        </div>
+    <div>
+        <label>Cognome:</label>
+        <input type="text" th:field="*{cognome}">
+    </div>
 
-        <button type="submit">Salva</button>
+    <div>
+        <label>Codice arbitrale:</label>
+        <input type="text" th:field="*{codiceArbitrale}">
+    </div>
 
-    </form>
+    <div>
+        <label>Foto arbitro:</label>
+        <input type="file" name="fileFoto" accept="image/*">
+    </div>
 
+    <button type="submit">Salva</button>
+
+</form>
 
 </body>
 </html>

@@ -8,35 +8,42 @@
 
 <body>
 
-    <nav>
-        <a th:href="@{/tornei}">Tornei</a>
-        |
-        <a th:href="@{/squadre}">Squadre</a>
-        |
-        <a th:href="@{/giocatori}">Giocatori</a>
-        |
-        <a th:href="@{/partite}">Partite</a>
-        |
-        <a th:href="@{/arbitri}">Arbitri</a>
-        |
-        <a th:href="@{/utenti}">Utenti</a>
-        |
-        <a th:href="@{/registrazione}">Registrazione</a>
-    </nav>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
-    <br><br>
+<h1>🟨 Elenco arbitri</h1>
 
-    <a th:href="@{/arbitri/new}">Aggiungi nuovo arbitro</a>
+<a class="action-button blue" th:href="@{/arbitri/new}">
+    ➕ Aggiungi nuovo arbitro
+</a>
 
-    <h1>Elenco arbitri</h1>
+<ul class="player-list">
+    <li th:each="arbitro : ${arbitri}" class="player-list-item">
 
-    <ul>
-        <li th:each="arbitro : ${arbitri}">
-            <span th:text="${arbitro.nome}">Nome</span>
-            <span th:text="${arbitro.cognome}">Cognome</span>
-        </li>
-    </ul>
+        <img th:if="${arbitro.foto != null}"
+             th:src="@{${arbitro.foto}}"
+             class="player-list-photo"
+             alt="Foto arbitro">
 
+        <div th:if="${arbitro.foto == null}" class="player-list-avatar">
+            🟨
+        </div>
+
+        <div>
+            <a th:href="@{'/arbitri/' + ${arbitro.id}}">
+                <strong>
+                    <span th:text="${arbitro.nome}">Nome</span>
+                    <span th:text="${arbitro.cognome}">Cognome</span>
+                </strong>
+            </a>
+
+            <p>
+                Codice arbitrale:
+                <span th:text="${arbitro.codiceArbitrale}">Codice</span>
+            </p>
+        </div>
+
+    </li>
+</ul>
 
 </body>
 </html>

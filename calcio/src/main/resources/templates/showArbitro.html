@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Dettaglio Arbitro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<h1>🟨 Dettaglio Arbitro</h1>
+
+<div class="player-card">
+
+    <div th:if="${arbitro.foto != null}">
+        <img class="player-photo"
+             th:src="@{${arbitro.foto}}"
+             alt="Foto arbitro">
+    </div>
+
+    <div th:if="${arbitro.foto == null}" class="player-avatar">
+        🟨
+    </div>
+
+    <div class="player-main">
+        <h2>
+            <span th:text="${arbitro.nome}">Nome</span>
+            <span th:text="${arbitro.cognome}">Cognome</span>
+        </h2>
+
+        <span class="player-role">Arbitro</span>
+    </div>
+
+</div>
+
+<div class="details-grid">
+
+    <div class="info-card">
+
+        <h2>📋 Informazioni arbitro</h2>
+
+        <p>
+            <strong>🆔 Codice arbitrale:</strong>
+            <span th:text="${arbitro.codiceArbitrale}">Codice</span>
+        </p>
+
+        <p>
+            <strong>⚽ Partite arbitrate:</strong>
+            <span th:text="${#lists.size(arbitro.partite)}">0</span>
+        </p>
+
+    </div>
+
+    <div class="info-card">
+
+        <h2>⚡ Azioni rapide</h2>
+
+        <a class="action-button blue"
+           th:href="@{'/arbitri/' + ${arbitro.id} + '/edit'}">
+            ✏️ Modifica arbitro
+        </a>
+
+        <a class="action-button gray"
+           th:href="@{/arbitri}">
+            ↩️ Torna agli arbitri
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
