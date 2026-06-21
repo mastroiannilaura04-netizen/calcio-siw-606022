@@ -23,19 +23,31 @@ public class SquadraController {
     }
 
     @GetMapping("/squadre")
-    public String mostraSquadreReact(Model model) {
-        String squadreJson = """
-            [
-                {"id":1,"nome":"Roma","citta":"Roma","annoFondazione":1927,"giocatori":[]},
-                {"id":2,"nome":"Lazio","citta":"Roma","annoFondazione":1900,"giocatori":[]},
-                {"id":3,"nome":"Milan","citta":"Milano","annoFondazione":1899,"giocatori":[]}
-            ]
-            """;
+public String mostraSquadreReact(Model model) {
 
-        model.addAttribute("squadreJson", squadreJson);
+    Iterable<Squadra> squadre = this.squadraService.findAll();
 
-        return "reactSquadre";
+    String squadreJson = "[";
+    for (Squadra s : squadre) {
+        squadreJson += "{";
+        squadreJson += "\"id\":" + s.getId() + ",";
+        squadreJson += "\"nome\":\"" + s.getNome() + "\",";
+        squadreJson += "\"citta\":\"" + s.getCitta() + "\",";
+        squadreJson += "\"annoFondazione\":" + s.getAnnoFondazione() + ",";
+        squadreJson += "\"giocatori\":[]";
+        squadreJson += "},";
     }
+
+    if (squadreJson.endsWith(",")) {
+        squadreJson = squadreJson.substring(0, squadreJson.length() - 1);
+    }
+
+    squadreJson += "]";
+
+    model.addAttribute("squadreJson", squadreJson);
+
+    return "reactSquadre";
+}
 
     @GetMapping("/squadre/new")
     public String mostraFormNuovaSquadra(Model model) {
