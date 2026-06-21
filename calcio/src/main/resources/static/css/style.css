@@ -669,3 +669,135 @@ tr:hover td {
         margin: 20px 15px;
     }
 }
+
+.tournament-hero{
+    max-width: 1050px;
+    margin: 30px auto;
+    background: linear-gradient(135deg,#facc15,#f59e0b);
+    color: white;
+    border-radius: 28px;
+    padding: 35px;
+    box-shadow: 0 18px 50px rgba(245,158,11,0.25);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.tournament-hero-icon{
+    font-size: 5rem;
+}
+
+.tournament-hero h2{
+    margin: 0;
+    font-size: 2.3rem;
+}
+
+.tournament-hero p{
+    margin: 10px 0 18px 0;
+    font-size: 1.05rem;
+}
+
+.tournament-stats{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tournament-stats span{
+    background: rgba(255,255,255,0.25);
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+}
+
+.team-chip-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.team-chip{
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 800;
+}
+
+.ranking-table{
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.ranking-table th{
+    background: linear-gradient(90deg,#facc15,#f59e0b);
+    color: white;
+    padding: 16px;
+}
+
+.ranking-table td{
+    padding: 16px;
+    text-align: center;
+    background: white;
+}
+
+.ranking-table tr:nth-child(even) td{
+    background: #fffbeb;
+}
+
+.medal{
+    font-size: 2rem;
+}
+
+.position-number{
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: #e2e8f0;
+    font-weight: 900;
+}
+
+.ranking-team{
+    font-weight: 900;
+    color: #0f172a;
+}
+
+.ranking-points{
+    font-weight: 900;
+    color: #f59e0b;
+    font-size: 1.2rem;
+}
+
+.tournament-match-item{
+    background: #f8fafc;
+    border-left: 6px solid #facc15;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin: 14px 0;
+}
+
+.tournament-match-item a{
+    font-size: 1.1rem;
+}
+
+.tournament-match-item p{
+    color: #64748b;
+    margin: 8px 0 0 0;
+}
+
+@media(max-width: 800px){
+    .tournament-hero{
+        margin: 20px 15px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .tournament-stats{
+        justify-content: center;
+    }
+}

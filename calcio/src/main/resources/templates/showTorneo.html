@@ -8,81 +8,111 @@
 
 <body>
 
-    <h1 th:text="${torneo.nome}">Nome torneo</h1>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
-    <p>
-        Anno:
-        <span th:text="${torneo.anno}">2025</span>
-    </p>
+<h1>🏆 <span th:text="${torneo.nome}">Nome torneo</span></h1>
 
-    <p>
-        Descrizione:
-        <span th:text="${torneo.descrizione}">Descrizione</span>
-    </p>
-    <h2>Squadre partecipanti</h2>
+<div class="tournament-hero">
 
-<ul>
-    <li th:each="squadra : ${torneo.squadre}">
-        <span th:text="${squadra.nome}">Nome squadra</span>
-    </li>
-</ul>
-<p>
-    Numero squadre:
-    <span th:text="${torneo.squadre.size()}"></span>
-</p>
+    <div class="tournament-hero-icon">🏆</div>
 
-<h2>Calendario partite</h2>
+    <div>
+        <h2 th:text="${torneo.nome}">Nome torneo</h2>
+        <p th:text="${torneo.descrizione}">Descrizione torneo</p>
 
-<ul>
-  <li th:each="partita : ${torneo.partite}">
-    <a th:href="@{'/partite/' + ${partita.id}}">
-        <span th:text="${partita.homeTeam.nome}">Casa</span>
-        vs
-        <span th:text="${partita.awayTeam.nome}">Ospite</span>
-    </a>
-    -
-    <span th:text="${partita.luogo}">Luogo</span>
-    -
-    <span th:text="${partita.stato}">Stato</span>
-    -
-    <span th:text="${#temporals.format(partita.dataOra, 'dd/MM/yyyy HH:mm')}">
-        Data e ora
-    </span>
-</li>
-</ul>
+        <div class="tournament-stats">
+            <span>📅 <strong th:text="${torneo.anno}">2026</strong></span>
+            <span>🛡️ <strong th:text="${torneo.squadre.size()}">0</strong> squadre</span>
+            <span>⚽ <strong th:text="${torneo.partite.size()}">0</strong> partite</span>
+        </div>
+    </div>
 
-<h2>Classifica</h2>
+</div>
 
-<table border="1">
-    <tr>
-        <th>Squadra</th>
-        <th>Punti</th>
-        <th>Gol fatti</th>
-        <th>Gol subiti</th>
-    </tr>
+<div class="details-grid">
 
-    <tr th:each="riga : ${classifica}">
-        <td th:text="${riga.squadra.nome}">Squadra</td>
-        <td th:text="${riga.punti}">0</td>
-        <td th:text="${riga.golFatti}">0</td>
-        <td th:text="${riga.golSubiti}">0</td>
-    </tr>
+    <div class="info-card">
+        <h2>🛡️ Squadre partecipanti</h2>
 
-</table>
+        <div th:if="${#lists.isEmpty(torneo.squadre)}">
+            <p>Nessuna squadra iscritta.</p>
+        </div>
 
-<br><br>
+        <div class="team-chip-list">
+            <span th:each="squadra : ${torneo.squadre}" class="team-chip">
+                🛡️ <span th:text="${squadra.nome}">Squadra</span>
+            </span>
+        </div>
+    </div>
 
-<a th:href="@{'/tornei/' + ${torneo.id} + '/edit'}">
-    Modifica torneo
-</a>
+    <div class="info-card">
+        <h2>⚡ Azioni rapide</h2>
 
-<br><br>
+        <a class="action-button blue"
+           th:href="@{'/tornei/' + ${torneo.id} + '/edit'}">
+            ✏️ Modifica torneo
+        </a>
 
-<a th:href="@{/tornei}">
-    Torna ai tornei
-</a>
-    <a th:href="@{/tornei}">Torna ai tornei</a>
+        <a class="action-button gray"
+           th:href="@{/tornei}">
+            ↩️ Torna ai tornei
+        </a>
+    </div>
 
+</div>
+
+<div class="comments-card">
+    <h2>🥇 Classifica</h2>
+
+    <table class="ranking-table">
+        <tr>
+            <th>Posizione</th>
+            <th>Squadra</th>
+            <th>Punti</th>
+            <th>Gol fatti</th>
+            <th>Gol subiti</th>
+        </tr>
+
+        <tr th:each="riga, stat : ${classifica}">
+            <td>
+                <span th:if="${stat.index == 0}" class="medal gold">🥇</span>
+                <span th:if="${stat.index == 1}" class="medal silver">🥈</span>
+                <span th:if="${stat.index == 2}" class="medal bronze">🥉</span>
+                <span th:if="${stat.index > 2}" class="position-number"
+                      th:text="${stat.index + 1}">4</span>
+            </td>
+
+            <td class="ranking-team" th:text="${riga.squadra.nome}">Squadra</td>
+            <td class="ranking-points" th:text="${riga.punti}">0</td>
+            <td th:text="${riga.golFatti}">0</td>
+            <td th:text="${riga.golSubiti}">0</td>
+        </tr>
+    </table>
+</div>
+
+<div class="comments-card">
+    <h2>📅 Calendario partite</h2>
+
+    <div th:if="${#lists.isEmpty(torneo.partite)}">
+        <p>Nessuna partita ancora inserita.</p>
+    </div>
+
+    <div th:each="partita : ${torneo.partite}" class="tournament-match-item">
+        <a th:href="@{'/partite/' + ${partita.id}}">
+            <strong th:text="${partita.homeTeam.nome}">Casa</strong>
+            <span>vs</span>
+            <strong th:text="${partita.awayTeam.nome}">Ospite</strong>
+        </a>
+
+        <p>
+            📍 <span th:text="${partita.luogo}">Luogo</span>
+            ·
+            <span th:text="${partita.stato}">Stato</span>
+            ·
+            🕒 <span th:text="${#temporals.format(partita.dataOra, 'dd/MM/yyyy HH:mm')}">Data</span>
+        </p>
+    </div>
+</div>
 
 </body>
 </html>
