@@ -827,3 +827,24 @@ tr:hover td {
     padding: 10px;
     box-shadow: 0 12px 30px rgba(59,130,246,0.22);
 }
+
+.team-chip{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    background:#eff6ff;
+    color:#2563eb;
+    padding:10px 16px;
+    border-radius:999px;
+    font-weight:800;
+}
+
+.team-chip-logo{
+    width:28px;
+    height:28px;
+    object-fit:contain;
+    border-radius:50%;
+    background:white;
+    padding:2px;
+}
