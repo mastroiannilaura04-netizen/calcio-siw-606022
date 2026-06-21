@@ -801,3 +801,18 @@ tr:hover td {
         justify-content: center;
     }
 }
+
+.search-box{
+    max-width: 850px;
+    margin: 25px auto 10px auto;
+}
+
+.search-box input{
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 18px;
+    border: 2px solid rgba(59,130,246,0.15);
+    font-size: 1.05rem;
+    background: white;
+    box-shadow: 0 10px 30px rgba(59,130,246,0.08);
+}

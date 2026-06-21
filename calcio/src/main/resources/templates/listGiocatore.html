@@ -3,7 +3,7 @@
 
 <head>
     <title>Giocatori</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
 </head>
 
 <body>
@@ -16,8 +16,14 @@
     ➕ Aggiungi nuovo giocatore
 </a>
 
-<ul class="player-list">
-    <li th:each="giocatore : ${giocatori}" class="player-list-item">
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔎 Cerca giocatore per nome, cognome o squadra...">
+</div>
+
+<ul class="player-list" id="playerList">
+    <li th:each="giocatore : ${giocatori}"
+        class="player-list-item"
+        th:attr="data-search=${giocatore.nome + ' ' + giocatore.cognome + ' ' + giocatore.squadra.nome}">
 
         <img th:if="${giocatore.foto != null}"
              th:src="@{${giocatore.foto}}"
@@ -43,6 +49,25 @@
 
     </li>
 </ul>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const players = document.querySelectorAll(".player-list-item");
+
+    searchInput.addEventListener("input", function () {
+        const value = this.value.toLowerCase();
+
+        players.forEach(player => {
+            const text = player.dataset.search.toLowerCase();
+
+            if (text.includes(value)) {
+                player.style.display = "flex";
+            } else {
+                player.style.display = "none";
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
