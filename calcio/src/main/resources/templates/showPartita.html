@@ -3,21 +3,26 @@
 
 <head>
     <title>Dettaglio Partita</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
 </head>
 
 <body>
 
-<a th:href="@{/}" class="logo-link">
-    <span class="logo-emoji">⚽</span>
-</a>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
 <h1>🏆 Dettaglio Partita</h1>
 
 <div class="match-card">
 
     <div class="team-box">
-        <div class="team-icon">🛡️</div>
+
+        <img class="team-logo-detail"
+             th:src="@{'/images/stemmi/' + ${#strings.toLowerCase(partita.homeTeam.nome)} + '.png'}"
+             alt="Stemma squadra casa"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+
+        <div class="team-icon" style="display:none;">🛡️</div>
+
         <h2 th:text="${partita.homeTeam.nome}">Squadra Casa</h2>
         <span>Squadra casa</span>
     </div>
@@ -32,7 +37,14 @@
     </div>
 
     <div class="team-box">
-        <div class="team-icon">🛡️</div>
+
+        <img class="team-logo-detail"
+             th:src="@{'/images/stemmi/' + ${#strings.toLowerCase(partita.awayTeam.nome)} + '.png'}"
+             alt="Stemma squadra ospite"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+
+        <div class="team-icon" style="display:none;">🛡️</div>
+
         <h2 th:text="${partita.awayTeam.nome}">Squadra Ospite</h2>
         <span>Squadra ospite</span>
     </div>
@@ -61,7 +73,13 @@
 
         <p>
             <strong>👨‍⚖️ Arbitro:</strong>
-            <span th:text="${partita.arbitro != null ? partita.arbitro.nome : 'Non assegnato'}">Arbitro</span>
+            <span th:if="${partita.arbitro != null}">
+                <span th:text="${partita.arbitro.nome}">Nome</span>
+                <span th:text="${partita.arbitro.cognome}">Cognome</span>
+            </span>
+            <span th:if="${partita.arbitro == null}">
+                Non assegnato
+            </span>
         </p>
     </div>
 
@@ -69,7 +87,7 @@
         <h2>⚡ Azioni rapide</h2>
 
         <a class="action-button blue"
-           th:href="@{'/partite/' + ${partita.id} + '/result'}">
+           th:href="@{'/partite/' + ${partita.id} + '/risultato'}">
             ✏️ Inserisci/Modifica risultato
         </a>
 

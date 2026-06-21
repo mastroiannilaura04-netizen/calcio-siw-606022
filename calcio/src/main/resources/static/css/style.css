@@ -816,3 +816,14 @@ tr:hover td {
     background: white;
     box-shadow: 0 10px 30px rgba(59,130,246,0.08);
 }
+
+.team-logo-detail{
+    width: 105px;
+    height: 105px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    background: white;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 12px 30px rgba(59,130,246,0.22);
+}
