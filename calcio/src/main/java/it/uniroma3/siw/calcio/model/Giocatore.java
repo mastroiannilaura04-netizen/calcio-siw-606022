@@ -36,28 +36,74 @@ public class Giocatore {
     @DecimalMin(value = "1.00", message = "L'altezza deve essere valida")
     private Double altezza;
 
+    // NUOVO CAMPO FOTO
+    private String foto;
+
     @ManyToOne
     @NotNull(message = "La squadra è obbligatoria")
     private Squadra squadra;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getCognome() { return cognome; }
-    public void setCognome(String cognome) { this.cognome = cognome; }
+    public String getNome() {
+        return nome;
+    }
 
-    public String getRuolo() { return ruolo; }
-    public void setRuolo(String ruolo) { this.ruolo = ruolo; }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-    public LocalDate getDataNascita() { return dataNascita; }
-    public void setDataNascita(LocalDate dataNascita) { this.dataNascita = dataNascita; }
+    public String getCognome() {
+        return cognome;
+    }
 
-    public Double getAltezza() { return altezza; }
-    public void setAltezza(Double altezza) { this.altezza = altezza; }
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
 
-    public Squadra getSquadra() { return squadra; }
-    public void setSquadra(Squadra squadra) { this.squadra = squadra; }
+    public String getRuolo() {
+        return ruolo;
+    }
+
+    public void setRuolo(String ruolo) {
+        this.ruolo = ruolo;
+    }
+
+    public LocalDate getDataNascita() {
+        return dataNascita;
+    }
+
+    public void setDataNascita(LocalDate dataNascita) {
+        this.dataNascita = dataNascita;
+    }
+
+    public Double getAltezza() {
+        return altezza;
+    }
+
+    public void setAltezza(Double altezza) {
+        this.altezza = altezza;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public Squadra getSquadra() {
+        return squadra;
+    }
+
+    public void setSquadra(Squadra squadra) {
+        this.squadra = squadra;
+    }
 }

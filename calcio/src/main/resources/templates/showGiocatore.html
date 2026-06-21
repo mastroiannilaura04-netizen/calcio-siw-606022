@@ -8,15 +8,21 @@
 
 <body>
 
-<a th:href="@{/}" class="logo-link">
-    <span class="logo-emoji">⚽</span>
-</a>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
 <h1>👟 Dettaglio Giocatore</h1>
 
 <div class="player-card">
 
-    <div class="player-avatar">👤</div>
+    <div th:if="${giocatore.foto != null}">
+        <img class="player-photo"
+             th:src="@{${giocatore.foto}}"
+             alt="Foto giocatore">
+    </div>
+
+    <div th:if="${giocatore.foto == null}" class="player-avatar">
+        👤
+    </div>
 
     <div class="player-main">
         <h2>
@@ -24,7 +30,10 @@
             <span th:text="${giocatore.cognome}">Cognome</span>
         </h2>
 
-        <span class="player-role" th:text="${giocatore.ruolo}">Ruolo</span>
+        <span class="player-role"
+              th:text="${giocatore.ruolo}">
+            Ruolo
+        </span>
     </div>
 
 </div>
@@ -32,25 +41,28 @@
 <div class="details-grid">
 
     <div class="info-card">
+
         <h2>📋 Informazioni giocatore</h2>
 
         <p>
             <strong>🎂 Data di nascita:</strong>
-            <span th:text="${giocatore.dataNascita}">Data</span>
+            <span th:text="${giocatore.dataNascita}"></span>
         </p>
 
         <p>
             <strong>📏 Altezza:</strong>
-            <span th:text="${giocatore.altezza}">Altezza</span>
+            <span th:text="${giocatore.altezza}"></span> m
         </p>
 
         <p>
             <strong>🛡️ Squadra:</strong>
-            <span th:text="${giocatore.squadra.nome}">Squadra</span>
+            <span th:text="${giocatore.squadra.nome}"></span>
         </p>
+
     </div>
 
     <div class="info-card">
+
         <h2>⚡ Azioni rapide</h2>
 
         <a class="action-button blue"
@@ -58,9 +70,11 @@
             ✏️ Modifica giocatore
         </a>
 
-        <a class="action-button gray" th:href="@{/giocatori}">
+        <a class="action-button gray"
+           th:href="@{/giocatori}">
             ↩️ Torna ai giocatori
         </a>
+
     </div>
 
 </div>
