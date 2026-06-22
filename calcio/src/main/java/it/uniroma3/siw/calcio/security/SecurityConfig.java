@@ -43,6 +43,7 @@ public class SecurityConfig {
 
                 .requestMatchers(
                     "/",
+                    "/error",
                     "/login",
                     "/registrazione",
                     "/oauth2/**",

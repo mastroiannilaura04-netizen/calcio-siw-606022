@@ -84,6 +84,25 @@ public class TorneoService {
             }
         }
 
+        classifica.sort((r1, r2) -> {
+            int confrontoPunti = Integer.compare(r2.getPunti(), r1.getPunti());
+
+            if (confrontoPunti != 0) {
+                return confrontoPunti;
+            }
+
+            int differenzaReti1 = r1.getGolFatti() - r1.getGolSubiti();
+            int differenzaReti2 = r2.getGolFatti() - r2.getGolSubiti();
+
+            int confrontoDifferenzaReti = Integer.compare(differenzaReti2, differenzaReti1);
+
+            if (confrontoDifferenzaReti != 0) {
+                return confrontoDifferenzaReti;
+            }
+
+            return Integer.compare(r2.getGolFatti(), r1.getGolFatti());
+        });
+
         return classifica;
     }
 }

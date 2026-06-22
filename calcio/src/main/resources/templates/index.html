@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>SIW Calcio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<h1 class="text-center">⚽ SIW Calcio</h1>
+
+<p class="text-center" style="margin-bottom:40px;">
+    Benvenuto nel sistema di gestione di tornei, squadre, giocatori, partite e arbitri.
+</p>
+
+<div class="home-grid">
+
+    <a th:href="@{/tornei}" class="home-card">
+        <div class="home-icon">🏆</div>
+        <h2>Tornei</h2>
+        <p>Visualizza e gestisci tutti i tornei.</p>
+    </a>
+
+    <a th:href="@{/squadre}" class="home-card">
+        <div class="home-icon">🛡️</div>
+        <h2>Squadre</h2>
+        <p>Consulta le squadre partecipanti.</p>
+    </a>
+
+    <a th:href="@{/giocatori}" class="home-card">
+        <div class="home-icon">👥</div>
+        <h2>Giocatori</h2>
+        <p>Visualizza giocatori e fotografie.</p>
+    </a>
+
+    <a th:href="@{/partite}" class="home-card">
+        <div class="home-icon">⚽</div>
+        <h2>Partite</h2>
+        <p>Calendario, risultati e commenti.</p>
+    </a>
+
+    <a th:href="@{/arbitri}" class="home-card">
+        <div class="home-icon">🟨</div>
+        <h2>Arbitri</h2>
+        <p>Gestisci gli arbitri del campionato.</p>
+    </a>
+
+    <a th:href="@{/utenti}" class="home-card">
+        <div class="home-icon">👤</div>
+        <h2>Utenti</h2>
+        <p>Visualizza tutti gli utenti registrati.</p>
+    </a>
+
+</div>
+
+</body>
+</html>

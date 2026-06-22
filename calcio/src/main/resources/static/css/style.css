@@ -877,3 +877,42 @@ tr:hover td {
     padding: 8px;
     box-shadow: 0 8px 25px rgba(0,0,0,.1);
 }
+
+/* HOME */
+
+.home-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+    max-width:1100px;
+    margin:40px auto;
+}
+
+.home-card{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    text-decoration:none;
+    color:inherit;
+    box-shadow:0 8px 25px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.home-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+.home-icon{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+.home-card h2{
+    margin-bottom:15px;
+}
+
+.home-card p{
+    color:gray;
+}
