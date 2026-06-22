@@ -24,15 +24,19 @@ public class SecurityConfig {
                     "/partite/*/risultato",
                     "/partite/*/delete",
                     "/squadre/*/delete",
-                    "/arbitri/new"
-                ).hasRole("ADMIN")
+                    "/arbitri/new",
+                    "/arbitri/*/edit"
+                ).authenticated()
 
                 .requestMatchers("/partite/*/commenti").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/commenti/*/edit", "/commenti/*").hasAnyRole("USER", "ADMIN")
 
                 .requestMatchers(
+                    "/",
                     "/login",
                     "/registrazione",
+                    "/oauth2/**",
+                    "/login/oauth2/**",
                     "/tornei",
                     "/tornei/*",
                     "/squadre",
@@ -42,6 +46,8 @@ public class SecurityConfig {
                     "/partite",
                     "/partite/*",
                     "/arbitri",
+                    "/arbitri/*",
+                    "/utenti",
                     "/css/**",
                     "/images/**",
                     "/js/**"
@@ -49,13 +55,20 @@ public class SecurityConfig {
 
                 .anyRequest().authenticated()
             )
+
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/tornei", true)
+                .defaultSuccessUrl("/", true)
                 .permitAll()
             )
+
+            .oauth2Login(oauth -> oauth
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true)
+            )
+
             .logout(logout -> logout
-                .logoutSuccessUrl("/tornei")
+                .logoutSuccessUrl("/")
                 .permitAll()
             );
 
