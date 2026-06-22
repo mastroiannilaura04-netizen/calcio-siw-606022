@@ -20,6 +20,9 @@ import it.uniroma3.siw.calcio.service.SquadraService;
 import it.uniroma3.siw.calcio.service.TorneoService;
 import it.uniroma3.siw.calcio.service.UtenteService;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+
 @Controller
 public class PartitaController {
 
@@ -78,27 +81,44 @@ public class PartitaController {
     }
 
     @PostMapping("/partite/{id}/commenti")
-    public String aggiungiCommento(@PathVariable("id") Long id,
-                                   @ModelAttribute("commento") Commento commento,
-                                   Principal principal) {
+public String aggiungiCommento(@PathVariable("id") Long id,
+                               @ModelAttribute("commento") Commento commento,
+                               Authentication authentication) {
 
-        Partita partita = this.partitaService.findById(id);
-        Utente autore = this.utenteService.findByUsername(principal.getName());
+    Partita partita = this.partitaService.findById(id);
 
-        commento.setPartita(partita);
-        commento.setAutore(autore);
-        commento.setDataCreazione(LocalDateTime.now());
+    String username;
 
-        this.commentoService.save(commento);
-
-        return "redirect:/partite/" + id;
+    if (authentication.getPrincipal() instanceof OAuth2User oauthUser) {
+        username = oauthUser.getAttribute("email");
+    } else {
+        username = authentication.getName();
     }
 
-    @PostMapping("/partite/{id}/delete")
-    public String eliminaPartita(@PathVariable("id") Long id) {
-        this.partitaService.deleteById(id);
-        return "redirect:/partite";
+    Utente autore = this.utenteService.findByUsername(username);
+
+    commento.setPartita(partita);
+    commento.setAutore(autore);
+    commento.setDataCreazione(LocalDateTime.now());
+
+    this.commentoService.save(commento);
+
+    return "redirect:/partite/" + id;
+}
+
+   @PostMapping("/partite/{id}/delete")
+public String eliminaPartita(@PathVariable("id") Long id) {
+
+    Partita partita = this.partitaService.findById(id);
+
+    for (Commento commento : partita.getCommenti()) {
+        this.commentoService.deleteById(commento.getId());
     }
+
+    this.partitaService.deleteById(id);
+
+    return "redirect:/partite";
+}
 
     @GetMapping("/partite/{id}/risultato")
     public String mostraFormRisultato(@PathVariable("id") Long id, Model model) {

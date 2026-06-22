@@ -112,7 +112,14 @@
     </div>
 
     <div th:each="commento : ${partita.commenti}" class="comment-item">
-        <strong th:text="${commento.autore.username}">Utente</strong>
+        <strong th:if="${commento.autore != null}"
+        th:text="${commento.autore.username}">
+    Utente
+</strong>
+
+<strong th:if="${commento.autore == null}">
+    Utente eliminato
+</strong>
         <p th:text="${commento.testo}">Testo commento</p>
     </div>
 

@@ -3,10 +3,20 @@ package it.uniroma3.siw.calcio.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+
+import it.uniroma3.siw.calcio.model.Utente;
+import it.uniroma3.siw.calcio.service.UtenteService;
 
 @Configuration
 public class SecurityConfig {
+
+    private UtenteService utenteService;
+
+    public SecurityConfig(UtenteService utenteService) {
+        this.utenteService = utenteService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -28,8 +38,8 @@ public class SecurityConfig {
                     "/arbitri/*/edit"
                 ).authenticated()
 
-                .requestMatchers("/partite/*/commenti").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/commenti/*/edit", "/commenti/*").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/partite/*/commenti").authenticated()
+                .requestMatchers("/commenti/*/edit", "/commenti/*").authenticated()
 
                 .requestMatchers(
                     "/",
@@ -64,7 +74,25 @@ public class SecurityConfig {
 
             .oauth2Login(oauth -> oauth
                 .loginPage("/login")
-                .defaultSuccessUrl("/", true)
+                .successHandler((request, response, authentication) -> {
+
+                    OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+
+                    String email = oauthUser.getAttribute("email");
+
+                    Utente utenteEsistente = this.utenteService.findByUsername(email);
+
+                    if (utenteEsistente == null) {
+                        Utente nuovoUtente = new Utente();
+                        nuovoUtente.setUsername(email);
+                        nuovoUtente.setPassword("GOOGLE_LOGIN");
+                        nuovoUtente.setRuolo("USER");
+
+                        this.utenteService.save(nuovoUtente);
+                    }
+
+                    response.sendRedirect("/");
+                })
             )
 
             .logout(logout -> logout
