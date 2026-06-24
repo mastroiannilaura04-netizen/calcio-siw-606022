@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,9 +33,16 @@ public class GiocatoreController {
         this.squadraService = squadraService;
     }
 
+    private boolean isAdmin(Authentication authentication) {
+        return authentication != null &&
+                authentication.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
+
     @GetMapping("/giocatori")
-    public String mostraGiocatori(Model model) {
+    public String mostraGiocatori(Model model, Authentication authentication) {
         model.addAttribute("giocatori", this.giocatoreService.findAll());
+        model.addAttribute("isAdmin", isAdmin(authentication));
         return "listGiocatore";
     }
 
@@ -58,15 +66,9 @@ public class GiocatoreController {
         }
 
         if (!fileFoto.isEmpty()) {
-
-            String nomeFile = System.currentTimeMillis() + "_" +
-                    fileFoto.getOriginalFilename();
-
-            Path percorso = Paths.get(
-                    "src/main/resources/static/images/" + nomeFile);
-
+            String nomeFile = System.currentTimeMillis() + "_" + fileFoto.getOriginalFilename();
+            Path percorso = Paths.get("src/main/resources/static/images/" + nomeFile);
             Files.write(percorso, fileFoto.getBytes());
-
             giocatore.setFoto("/images/" + nomeFile);
         }
 
@@ -76,8 +78,11 @@ public class GiocatoreController {
     }
 
     @GetMapping("/giocatori/{id}")
-    public String mostraGiocatore(@PathVariable("id") Long id, Model model) {
+    public String mostraGiocatore(@PathVariable("id") Long id,
+                                  Model model,
+                                  Authentication authentication) {
         model.addAttribute("giocatore", this.giocatoreService.findById(id));
+        model.addAttribute("isAdmin", isAdmin(authentication));
         return "showGiocatore";
     }
 
@@ -107,15 +112,9 @@ public class GiocatoreController {
         Giocatore vecchioGiocatore = this.giocatoreService.findById(id);
 
         if (!fileFoto.isEmpty()) {
-
-            String nomeFile = System.currentTimeMillis() + "_" +
-                    fileFoto.getOriginalFilename();
-
-            Path percorso = Paths.get(
-                    "src/main/resources/static/images/" + nomeFile);
-
+            String nomeFile = System.currentTimeMillis() + "_" + fileFoto.getOriginalFilename();
+            Path percorso = Paths.get("src/main/resources/static/images/" + nomeFile);
             Files.write(percorso, fileFoto.getBytes());
-
             giocatore.setFoto("/images/" + nomeFile);
         } else {
             giocatore.setFoto(vecchioGiocatore.getFoto());

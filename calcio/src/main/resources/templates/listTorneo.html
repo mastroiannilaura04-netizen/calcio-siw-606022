@@ -16,7 +16,7 @@
 </h1>
 
 <div class="page-actions">
-    <a th:href="@{/tornei/new}" class="action-button blue">
+    <a th:if="${isAdmin}" th:href="@{/tornei/new}" class="action-button blue">
         <i class="fa-solid fa-plus"></i> Aggiungi nuovo torneo
     </a>
 </div>
@@ -28,11 +28,11 @@
        class="tournament-card">
 
         <img class="tournament-logo"
-     th:src="@{'/images/tornei/' + ${#strings.toLowerCase(torneo.nome)} + '.png'}"
-     alt="Logo torneo"
-     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             th:src="@{'/images/tornei/' + ${#strings.toLowerCase(torneo.nome)} + '.png'}"
+             alt="Logo torneo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
 
-<div class="tournament-icon" style="display:none;">🏆</div>
+        <div class="tournament-icon" style="display:none;">🏆</div>
 
         <div class="tournament-content">
             <h2 th:text="${torneo.nome}">Nome Torneo</h2>

@@ -22,8 +22,6 @@
 
         <div class="tournament-stats">
             <span>📅 <strong th:text="${torneo.anno}">2026</strong></span>
-            <span>🛡️ <strong th:text="${torneo.squadre.size()}">0</strong> squadre</span>
-            <span>⚽ <strong th:text="${torneo.partite.size()}">0</strong> partite</span>
         </div>
     </div>
 
@@ -38,27 +36,29 @@
             <p>Nessuna squadra iscritta.</p>
         </div>
 
-       <div class="team-chip-list">
+        <div class="team-chip-list">
 
-    <div th:each="squadra : ${torneo.squadre}" class="team-chip">
+            <div th:each="squadra : ${torneo.squadre}" class="team-chip">
 
-        <img class="team-chip-logo"
-             th:src="@{'/images/stemmi/' + ${#strings.toLowerCase(squadra.nome)} + '.png'}"
-             alt="Stemma squadra"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <img class="team-chip-logo"
+                     th:src="@{'/images/stemmi/' + ${#strings.toLowerCase(squadra.nome)} + '.png'}"
+                     alt="Stemma squadra"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
 
-        <span style="display:none;">🛡️</span>
+                <span style="display:none;">🛡️</span>
 
-        <span th:text="${squadra.nome}">Squadra</span>
+                <span th:text="${squadra.nome}">Squadra</span>
 
+            </div>
+
+        </div>
     </div>
-
-</div>
 
     <div class="info-card">
         <h2>⚡ Azioni rapide</h2>
 
-        <a class="action-button blue"
+        <a th:if="${isAdmin}"
+           class="action-button blue"
            th:href="@{'/tornei/' + ${torneo.id} + '/edit'}">
             ✏️ Modifica torneo
         </a>

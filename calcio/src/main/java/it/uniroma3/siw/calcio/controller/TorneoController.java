@@ -1,5 +1,6 @@
 package it.uniroma3.siw.calcio.controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,9 +26,16 @@ public class TorneoController {
         this.squadraService = squadraService;
     }
 
+    private boolean isAdmin(Authentication authentication) {
+        return authentication != null &&
+                authentication.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
+
     @GetMapping("/tornei")
-    public String mostraTornei(Model model) {
+    public String mostraTornei(Model model, Authentication authentication) {
         model.addAttribute("tornei", this.torneoService.findAll());
+        model.addAttribute("isAdmin", isAdmin(authentication));
         return "listTorneo";
     }
 
@@ -53,11 +61,14 @@ public class TorneoController {
     }
 
     @GetMapping("/tornei/{id}")
-    public String mostraTorneo(@PathVariable("id") Long id, Model model) {
+    public String mostraTorneo(@PathVariable("id") Long id,
+                               Model model,
+                               Authentication authentication) {
         Torneo torneo = this.torneoService.findById(id);
 
         model.addAttribute("torneo", torneo);
         model.addAttribute("classifica", this.torneoService.getClassifica(torneo));
+        model.addAttribute("isAdmin", isAdmin(authentication));
 
         return "showTorneo";
     }
@@ -81,7 +92,6 @@ public class TorneoController {
         }
 
         torneo.setId(id);
-
         this.torneoService.save(torneo);
 
         return "redirect:/tornei/" + id;

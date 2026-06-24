@@ -36,11 +36,11 @@ public class SecurityConfig {
                     "/squadre/*/delete",
                     "/arbitri/new",
                     "/arbitri/*/edit"
-                ).authenticated()
+                ).hasRole("ADMIN")
 
-                .requestMatchers("/partite/*/commenti").authenticated()
-                .requestMatchers("/commenti/*/edit", "/commenti/*").authenticated()
-
+                .requestMatchers("/partite/*/commenti").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/commenti/*/edit", "/commenti/*").hasAnyRole("USER", "ADMIN")
+                
                 .requestMatchers(
                     "/",
                     "/error",

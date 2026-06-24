@@ -12,7 +12,7 @@
 
 <h1>🟨 Elenco arbitri</h1>
 
-<a class="action-button blue" th:href="@{/arbitri/new}">
+<a th:if="${isAdmin}" class="action-button blue" th:href="@{/arbitri/new}">
     ➕ Aggiungi nuovo arbitro
 </a>
 

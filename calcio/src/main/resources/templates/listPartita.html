@@ -16,7 +16,7 @@
 </h1>
 
 <div class="page-actions">
-    <a th:href="@{/partite/new}" class="action-button blue">
+    <a th:if="${isAdmin}" th:href="@{/partite/new}" class="action-button blue">
         <i class="fa-solid fa-plus"></i> Aggiungi nuova partita
     </a>
 </div>

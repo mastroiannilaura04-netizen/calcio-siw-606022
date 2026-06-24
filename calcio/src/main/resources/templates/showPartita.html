@@ -86,12 +86,15 @@
     <div class="info-card">
         <h2>⚡ Azioni rapide</h2>
 
-        <a class="action-button blue"
+        <a th:if="${isAdmin}"
+           class="action-button blue"
            th:href="@{'/partite/' + ${partita.id} + '/risultato'}">
             ✏️ Inserisci/Modifica risultato
         </a>
 
-        <form th:action="@{'/partite/' + ${partita.id} + '/delete'}" method="post">
+        <form th:if="${isAdmin}"
+              th:action="@{'/partite/' + ${partita.id} + '/delete'}"
+              method="post">
             <button class="action-button red" type="submit">
                 🗑️ Elimina partita
             </button>
@@ -113,13 +116,14 @@
 
     <div th:each="commento : ${partita.commenti}" class="comment-item">
         <strong th:if="${commento.autore != null}"
-        th:text="${commento.autore.username}">
-    Utente
-</strong>
+                th:text="${commento.autore.username}">
+            Utente
+        </strong>
 
-<strong th:if="${commento.autore == null}">
-    Utente eliminato
-</strong>
+        <strong th:if="${commento.autore == null}">
+            Utente eliminato
+        </strong>
+
         <p th:text="${commento.testo}">Testo commento</p>
     </div>
 

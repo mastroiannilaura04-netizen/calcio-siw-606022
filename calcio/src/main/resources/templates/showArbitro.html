@@ -38,7 +38,6 @@
 <div class="details-grid">
 
     <div class="info-card">
-
         <h2>📋 Informazioni arbitro</h2>
 
         <p>
@@ -50,14 +49,13 @@
             <strong>⚽ Partite arbitrate:</strong>
             <span th:text="${#lists.size(arbitro.partite)}">0</span>
         </p>
-
     </div>
 
     <div class="info-card">
-
         <h2>⚡ Azioni rapide</h2>
 
-        <a class="action-button blue"
+        <a th:if="${isAdmin}"
+           class="action-button blue"
            th:href="@{'/arbitri/' + ${arbitro.id} + '/edit'}">
             ✏️ Modifica arbitro
         </a>
@@ -66,7 +64,6 @@
            th:href="@{/arbitri}">
             ↩️ Torna agli arbitri
         </a>
-
     </div>
 
 </div>

@@ -5,11 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import it.uniroma3.siw.calcio.service.ArbitroService;
+
 import it.uniroma3.siw.calcio.model.Arbitro;
+import it.uniroma3.siw.calcio.service.ArbitroService;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +28,16 @@ public class ArbitroController {
         this.arbitroService = arbitroService;
     }
 
+    private boolean isAdmin(Authentication authentication) {
+        return authentication != null &&
+                authentication.getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
+
     @GetMapping("/arbitri")
-    public String mostraArbitri(Model model) {
+    public String mostraArbitri(Model model, Authentication authentication) {
         model.addAttribute("arbitri", this.arbitroService.findAll());
+        model.addAttribute("isAdmin", isAdmin(authentication));
         return "listArbitro";
     }
 
@@ -38,8 +48,11 @@ public class ArbitroController {
     }
 
     @GetMapping("/arbitri/{id}")
-    public String mostraArbitro(@PathVariable("id") Long id, Model model) {
+    public String mostraArbitro(@PathVariable("id") Long id,
+                                Model model,
+                                Authentication authentication) {
         model.addAttribute("arbitro", this.arbitroService.findById(id));
+        model.addAttribute("isAdmin", isAdmin(authentication));
         return "showArbitro";
     }
 
