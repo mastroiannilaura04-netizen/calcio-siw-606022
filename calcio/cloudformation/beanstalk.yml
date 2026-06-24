@@ -1,0 +1,145 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Elastic Beanstalk Docker + RDS PostgreSQL per SIW Calcio'
+
+Parameters:
+  ApplicationName:
+    Type: String
+    Default: siw-calcio
+
+  EnvironmentName:
+    Type: String
+    Default: siw-calcio-env
+
+  InstanceType:
+    Type: String
+    Default: t3.micro
+
+  DBName:
+    Type: String
+    Default: calcio
+
+  DBUsername:
+    Type: String
+    Default: postgres
+
+  DBPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+
+  GoogleClientId:
+    Type: String
+    NoEcho: true
+
+  GoogleClientSecret:
+    Type: String
+    NoEcho: true
+
+Resources:
+
+  WebServerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier
+
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref WebServerRole
+
+  DatabaseSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Accesso PostgreSQL per Elastic Beanstalk
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 0.0.0.0/0
+
+  PostgresDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Engine: postgres
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: 20
+      DBName: !Ref DBName
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      PubliclyAccessible: false
+      VPCSecurityGroups:
+        - !GetAtt DatabaseSecurityGroup.GroupId
+
+  BeanstalkApplication:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      ApplicationName: !Ref ApplicationName
+
+  BeanstalkEnvironment:
+    Type: AWS::ElasticBeanstalk::Environment
+    DependsOn: PostgresDB
+    Properties:
+      ApplicationName: !Ref BeanstalkApplication
+      EnvironmentName: !Ref EnvironmentName
+      SolutionStackName: "64bit Amazon Linux 2023 v4.13.2 running Docker"
+      OptionSettings:
+
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: IamInstanceProfile
+          Value: !Ref WebServerInstanceProfile
+
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: InstanceType
+          Value: !Ref InstanceType
+
+        - Namespace: aws:elasticbeanstalk:environment
+          OptionName: EnvironmentType
+          Value: SingleInstance
+
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: SERVER_PORT
+          Value: "8080"
+
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: SPRING_DATASOURCE_URL
+          Value: !Sub "jdbc:postgresql://${PostgresDB.Endpoint.Address}:${PostgresDB.Endpoint.Port}/${DBName}"
+
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: SPRING_DATASOURCE_USERNAME
+          Value: !Ref DBUsername
+
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: SPRING_DATASOURCE_PASSWORD
+          Value: !Ref DBPassword
+
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: SPRING_JPA_HIBERNATE_DDL_AUTO
+          Value: update
+
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: GOOGLE_CLIENT_ID
+          Value: !Ref GoogleClientId
+
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: GOOGLE_CLIENT_SECRET
+          Value: !Ref GoogleClientSecret
+
+Outputs:
+  BeanstalkURL:
+    Description: URL pubblico applicazione
+    Value: !GetAtt BeanstalkEnvironment.EndpointURL
+
+  DatabaseEndpoint:
+    Description: Endpoint database PostgreSQL
+    Value: !GetAtt PostgresDB.Endpoint.Address
