@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Arbitro {
@@ -16,8 +17,13 @@ public class Arbitro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Il nome è obbligatorio")
     private String nome;
+
+    @NotBlank(message = "Il cognome è obbligatorio")
     private String cognome;
+
+    @NotBlank(message = "Il codice arbitrale è obbligatorio")
     private String codiceArbitrale;
 
     private String foto;

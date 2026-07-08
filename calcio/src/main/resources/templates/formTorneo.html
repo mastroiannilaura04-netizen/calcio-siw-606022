@@ -2,34 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Nuovo Torneo</title>
-    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+    <title>Torneo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css?v=3}">
 </head>
 
 <body>
-    <div th:replace="fragments/header :: navbar"></div>
 
-    <h1 class="text-center">Inserisci un nuovo torneo</h1>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
-    <form th:action="${torneo.id == null} ? @{/tornei} : @{'/tornei/' + ${torneo.id}}"
+<h1>
+    <i class="fa-solid fa-trophy page-title-icon"></i>
+    <span th:text="${torneo.id == null} ? 'Inserisci un nuovo torneo' : 'Modifica torneo'"></span>
+</h1>
+
+<form th:action="${torneo.id == null} ? @{/tornei} : @{'/tornei/' + ${torneo.id}}"
       th:object="${torneo}"
       method="post">
 
-        <div>
-            <label>Nome:</label>
-            <input type="text" th:field="*{nome}">
-        </div>
+    <label>Nome:</label>
+    <input type="text" th:field="*{nome}">
+    <p class="error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
 
-        <div>
-            <label>Anno:</label>
-            <input type="number" th:field="*{anno}">
-        </div>
+    <label>Anno:</label>
+    <input type="number" th:field="*{anno}">
+    <p class="error" th:if="${#fields.hasErrors('anno')}" th:errors="*{anno}"></p>
 
-        <div>
-            <label>Descrizione:</label>
-            <input type="text" th:field="*{descrizione}">
-        </div>
-        <div>
+    <label>Descrizione:</label>
+    <input type="text" th:field="*{descrizione}">
+    <p class="error" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></p>
+
     <label>Squadre partecipanti:</label>
     <select multiple th:field="*{squadre}">
         <option th:each="squadra : ${squadre}"
@@ -37,13 +38,10 @@
                 th:text="${squadra.nome}">
         </option>
     </select>
-</div>
 
-        <button type="submit">Salva</button>
+    <button type="submit">Salva</button>
 
-    </form>
-
-
+</form>
 
 </body>
 </html>

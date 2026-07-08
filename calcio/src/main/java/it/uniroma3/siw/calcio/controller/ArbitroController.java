@@ -5,19 +5,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import jakarta.validation.Valid;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import it.uniroma3.siw.calcio.model.Arbitro;
-import it.uniroma3.siw.calcio.service.ArbitroService;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import it.uniroma3.siw.calcio.model.Arbitro;
+import it.uniroma3.siw.calcio.service.ArbitroService;
 
 @Controller
 public class ArbitroController {
@@ -63,9 +65,14 @@ public class ArbitroController {
     }
 
     @PostMapping("/arbitri")
-    public String salvaArbitro(@ModelAttribute("arbitro") Arbitro arbitro,
+    public String salvaArbitro(@Valid @ModelAttribute("arbitro") Arbitro arbitro,
+                               BindingResult bindingResult,
                                @RequestParam("fileFoto") MultipartFile fileFoto)
             throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            return "formArbitro";
+        }
 
         if (!fileFoto.isEmpty()) {
             String nomeFile = System.currentTimeMillis() + "_" + fileFoto.getOriginalFilename();
@@ -81,11 +88,18 @@ public class ArbitroController {
 
     @PostMapping("/arbitri/{id}")
     public String modificaArbitro(@PathVariable("id") Long id,
-                                  @ModelAttribute("arbitro") Arbitro arbitro,
+                                  @Valid @ModelAttribute("arbitro") Arbitro arbitro,
+                                  BindingResult bindingResult,
                                   @RequestParam("fileFoto") MultipartFile fileFoto)
             throws IOException {
 
         Arbitro vecchioArbitro = this.arbitroService.findById(id);
+        arbitro.setId(id);
+
+        if (bindingResult.hasErrors()) {
+            arbitro.setFoto(vecchioArbitro.getFoto());
+            return "formArbitro";
+        }
 
         if (!fileFoto.isEmpty()) {
             String nomeFile = System.currentTimeMillis() + "_" + fileFoto.getOriginalFilename();
@@ -96,7 +110,6 @@ public class ArbitroController {
             arbitro.setFoto(vecchioArbitro.getFoto());
         }
 
-        arbitro.setId(id);
         this.arbitroService.save(arbitro);
 
         return "redirect:/arbitri/" + id;

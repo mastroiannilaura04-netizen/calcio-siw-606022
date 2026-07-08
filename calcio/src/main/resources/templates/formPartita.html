@@ -2,82 +2,84 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Nuova Partita</title>
-    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+    <title>Partita</title>
+    <link rel="stylesheet" th:href="@{/css/style.css?v=3}">
 </head>
 
 <body>
 
-    <h1>Inserisci una nuova partita</h1>
+<div th:replace="~{fragments/header :: navbar}"></div>
 
-    <form th:action="@{/partite}" th:object="${partita}" method="post">
+<h1>
+    <i class="fa-solid fa-futbol page-title-icon"></i>
+    Inserisci una nuova partita
+</h1>
 
-        <div>
+<form th:action="@{/partite}" th:object="${partita}" method="post">
+
     <label>Data e ora:</label>
     <input type="datetime-local" th:field="*{dataOra}">
-</div>
-        <div>
-            <label>Luogo:</label>
-            <input type="text" th:field="*{luogo}">
-        </div>
+    <p class="error" th:if="${#fields.hasErrors('dataOra')}" th:errors="*{dataOra}"></p>
 
-        <div>
-            <label>Stato:</label>
-            <input type="text" th:field="*{stato}">
-        </div>
+    <label>Luogo:</label>
+    <input type="text" th:field="*{luogo}">
+    <p class="error" th:if="${#fields.hasErrors('luogo')}" th:errors="*{luogo}"></p>
 
-        <div>
-            <label>Gol squadra casa:</label>
-            <input type="number" th:field="*{goalsHome}">
-        </div>
+    <label>Stato:</label>
+    <input type="text" th:field="*{stato}">
+    <p class="error" th:if="${#fields.hasErrors('stato')}" th:errors="*{stato}"></p>
 
-        <div>
-            <label>Gol squadra ospite:</label>
-            <input type="number" th:field="*{goalsAway}">
-        </div>
+    <label>Gol squadra casa:</label>
+    <input type="number" th:field="*{goalsHome}">
+    <p class="error" th:if="${#fields.hasErrors('goalsHome')}" th:errors="*{goalsHome}"></p>
 
-        <div>
+    <label>Gol squadra ospite:</label>
+    <input type="number" th:field="*{goalsAway}">
+    <p class="error" th:if="${#fields.hasErrors('goalsAway')}" th:errors="*{goalsAway}"></p>
+
     <label>Squadra di casa:</label>
     <select th:field="*{homeTeam}">
+        <option value="">-- Seleziona squadra --</option>
         <option th:each="squadra : ${squadre}"
                 th:value="${squadra.id}"
                 th:text="${squadra.nome}">
         </option>
     </select>
-</div>
+    <p class="error" th:if="${#fields.hasErrors('homeTeam')}" th:errors="*{homeTeam}"></p>
 
-<div>
     <label>Squadra ospite:</label>
     <select th:field="*{awayTeam}">
+        <option value="">-- Seleziona squadra --</option>
         <option th:each="squadra : ${squadre}"
                 th:value="${squadra.id}"
                 th:text="${squadra.nome}">
         </option>
     </select>
-</div>
+    <p class="error" th:if="${#fields.hasErrors('awayTeam')}" th:errors="*{awayTeam}"></p>
 
-<div>
     <label>Arbitro:</label>
     <select th:field="*{arbitro}">
+        <option value="">-- Seleziona arbitro --</option>
         <option th:each="arbitro : ${arbitri}"
                 th:value="${arbitro.id}"
                 th:text="${arbitro.nome + ' ' + arbitro.cognome}">
         </option>
     </select>
-</div>
-<div>
+    <p class="error" th:if="${#fields.hasErrors('arbitro')}" th:errors="*{arbitro}"></p>
+
     <label>Torneo:</label>
     <select th:field="*{torneo}">
+        <option value="">-- Seleziona torneo --</option>
         <option th:each="torneo : ${tornei}"
                 th:value="${torneo.id}"
                 th:text="${torneo.nome}">
         </option>
     </select>
-</div>
-        <button type="submit">Salva</button>
+    <p class="error" th:if="${#fields.hasErrors('torneo')}" th:errors="*{torneo}"></p>
 
-    </form>
+    <button type="submit">Salva</button>
 
+</form>
 
 </body>
 </html>

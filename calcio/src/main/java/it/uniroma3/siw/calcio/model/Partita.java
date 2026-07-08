@@ -10,6 +10,10 @@ import jakarta.persistence.ManyToOne;
 import java.util.List;
 import java.util.ArrayList;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+
 import jakarta.persistence.OneToMany;
     
 
@@ -20,28 +24,40 @@ public class Partita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dataOra;
-    private String luogo;
-    private Integer goalsHome;
-    private Integer goalsAway;
-    private String stato;
+@NotNull(message = "La data e ora sono obbligatorie")
+private LocalDateTime dataOra;
 
-  
+@NotBlank(message = "Il luogo è obbligatorio")
+private String luogo;
 
-    @ManyToOne
+@Min(value = 0, message = "I gol non possono essere negativi")
+private Integer goalsHome;
+
+@Min(value = 0, message = "I gol non possono essere negativi")
+private Integer goalsAway;
+
+@NotBlank(message = "Lo stato è obbligatorio")
+private String stato;
+
+@ManyToOne
+@NotNull(message = "Il torneo è obbligatorio")
 private Torneo torneo;
 
 @ManyToOne
+@NotNull(message = "L'arbitro è obbligatorio")
 private Arbitro arbitro;
 
 @ManyToOne
+@NotNull(message = "La squadra di casa è obbligatoria")
 private Squadra homeTeam;
+
+@ManyToOne
+@NotNull(message = "La squadra ospite è obbligatoria")
+private Squadra awayTeam;
 
 @OneToMany(mappedBy = "partita")
 private List<Commento> commenti = new ArrayList<>();
 
-@ManyToOne
-private Squadra awayTeam;
 
 public List<Commento> getCommenti() {
     return commenti;

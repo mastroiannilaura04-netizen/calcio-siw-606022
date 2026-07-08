@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Nuova Squadra</title>
-    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
-
+    <title>Squadra</title>
+    <link rel="stylesheet" th:href="@{/css/style.css?v=3}">
 </head>
-<body>
-    <div th:replace="fragments/header :: navbar"></div>
 
-<h1 class="text-center">Inserisci una nuova squadra</h1>
+<body>
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<h1>
+    <i class="fa-solid fa-shield-halved page-title-icon"></i>
+    <span th:text="${squadra.id == null} ? 'Inserisci una nuova squadra' : 'Modifica squadra'"></span>
+</h1>
 
 <form th:action="${squadra.id == null} ? @{/squadre} : @{'/squadre/' + ${squadra.id}}"
-      th:object="${squadra}" method="post">
+      th:object="${squadra}"
+      method="post">
 
-    <div>
-        <label>Nome:</label>
-        <input type="text" th:field="*{nome}">
-        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
-    </div>
+    <label>Nome:</label>
+    <input type="text" th:field="*{nome}">
+    <p class="error" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
 
-    <div>
-        <label>Anno di fondazione:</label>
-        <input type="number" th:field="*{annoFondazione}">
-        <div th:if="${#fields.hasErrors('annoFondazione')}" th:errors="*{annoFondazione}"></div>
-    </div>
+    <label>Anno di fondazione:</label>
+    <input type="number" th:field="*{annoFondazione}">
+    <p class="error" th:if="${#fields.hasErrors('annoFondazione')}" th:errors="*{annoFondazione}"></p>
 
-    <div>
-        <label>Città:</label>
-        <input type="text" th:field="*{citta}">
-        <div th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}"></div>
-    </div>
+    <label>Città:</label>
+    <input type="text" th:field="*{citta}">
+    <p class="error" th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}"></p>
 
     <button type="submit">Salva</button>
-</form>
 
+</form>
 
 </body>
 </html>

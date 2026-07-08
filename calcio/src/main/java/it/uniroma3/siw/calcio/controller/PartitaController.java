@@ -21,6 +21,9 @@ import it.uniroma3.siw.calcio.service.SquadraService;
 import it.uniroma3.siw.calcio.service.TorneoService;
 import it.uniroma3.siw.calcio.service.UtenteService;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
 @Controller
 public class PartitaController {
 
@@ -68,10 +71,21 @@ public class PartitaController {
     }
 
     @PostMapping("/partite")
-    public String salvaPartita(@ModelAttribute("partita") Partita partita) {
-        this.partitaService.save(partita);
-        return "redirect:/partite";
+public String salvaPartita(@Valid @ModelAttribute("partita") Partita partita,
+                           BindingResult bindingResult,
+                           Model model) {
+
+    if (bindingResult.hasErrors()) {
+        model.addAttribute("squadre", this.squadraService.findAll());
+        model.addAttribute("arbitri", this.arbitroService.findAll());
+        model.addAttribute("tornei", this.torneoService.findAll());
+        return "formPartita";
     }
+
+    this.partitaService.save(partita);
+
+    return "redirect:/partite";
+}
 
     @GetMapping("/partite/{id}")
     public String mostraPartita(@PathVariable("id") Long id,

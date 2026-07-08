@@ -2,15 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Nuovo Arbitro</title>
-    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
+    <title>Arbitro</title>
+    <link rel="stylesheet" th:href="@{/css/style.css?v=3}">
 </head>
 
 <body>
 
 <div th:replace="~{fragments/header :: navbar}"></div>
 
-<h1>🟨 Inserisci un nuovo arbitro</h1>
+<h1>
+    <i class="fa-solid fa-flag page-title-icon"></i>
+    <span th:text="${arbitro.id == null} ? 'Inserisci un nuovo arbitro' : 'Modifica arbitro'"></span>
+</h1>
 
 <form th:action="${arbitro.id == null} ? @{/arbitri} : @{'/arbitri/' + ${arbitro.id}}"
       th:object="${arbitro}"
@@ -20,16 +23,31 @@
     <div>
         <label>Nome:</label>
         <input type="text" th:field="*{nome}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('nome')}"
+           th:errors="*{nome}">
+        </p>
     </div>
 
     <div>
         <label>Cognome:</label>
         <input type="text" th:field="*{cognome}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('cognome')}"
+           th:errors="*{cognome}">
+        </p>
     </div>
 
     <div>
         <label>Codice arbitrale:</label>
         <input type="text" th:field="*{codiceArbitrale}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('codiceArbitrale')}"
+           th:errors="*{codiceArbitrale}">
+        </p>
     </div>
 
     <div>
